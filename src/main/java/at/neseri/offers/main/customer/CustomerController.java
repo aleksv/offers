@@ -1,5 +1,7 @@
 package at.neseri.offers.main.customer;
 
+import java.util.Optional;
+
 import com.sun.javafx.collections.ObservableListWrapper;
 
 import at.neseri.offers.main.Main;
@@ -8,6 +10,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
@@ -27,7 +32,6 @@ public class CustomerController {
 
 	public void initialize() {
 		customerDao = new CustomerDao(Main.getDatabase());
-		masterList = new ObservableListWrapper<Customer>(customerDao.getCustomers());
 
 		customerTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
 		customerTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("nachname"));
@@ -35,6 +39,11 @@ public class CustomerController {
 
 		initContextMenu(customerTableView);
 
+		updateCustomerTable();
+	}
+
+	private void updateCustomerTable() {
+		masterList = new ObservableListWrapper<Customer>(customerDao.getCustomers());
 		FilteredList<Customer> filteredData = new FilteredList<>(masterList, p -> true);
 
 		filterTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -59,6 +68,7 @@ public class CustomerController {
 		SortedList<Customer> sortedList = new SortedList<Customer>(filteredData);
 		sortedList.comparatorProperty().bind(customerTableView.comparatorProperty());
 		customerTableView.setItems(sortedList);
+		customerTableView.refresh();
 	}
 
 	private void initContextMenu(TableView<Customer> customerTableView2) {
@@ -66,17 +76,24 @@ public class CustomerController {
 
 		menu.getItems().add(new MenuItem("Bearbeiten"));
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
-			System.out.println("Menu item 1");
 			Customer customer = customerTableView.getSelectionModel().getSelectedItem();
-			System.out.println("Selected item: " + customer);
 			openDialog(customer);
 		});
 
 		menu.getItems().add(new MenuItem("Löschen"));
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
-			System.out.println("Menu item 1");
-			Object item = customerTableView.getSelectionModel().getSelectedItem();
-			System.out.println("Selected item: " + item);
+			Customer customer = customerTableView.getSelectionModel().getSelectedItem();
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Kunde löschen");
+			alert.setContentText(customer.toString());
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				customerDao.deleteCustomer(customer);
+				updateCustomerTable();
+			}
+
 		});
 
 		customerTableView.setContextMenu(menu);
@@ -84,13 +101,20 @@ public class CustomerController {
 
 	private void openDialog(Customer customer) {
 		Stage stage = UiUtils.getStage(getClass().getResource("CustomerDialog.fxml"),
-				(CustomerDialogController c1) -> c1.setCustomer(customer));
+				(CustomerDialogController c1) -> {
+					c1.setCustomer(customer);
+					c1.setCustomerDao(customerDao);
+				});
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Kunde");
 		stage.setWidth(200);
 		stage.setHeight(200);
 		stage.showAndWait();
-		customerDao.saveCustomer(customer);
-		customerTableView.refresh();
+		updateCustomerTable();
+	}
+
+	public void onNeuButton() {
+		Customer customer = new Customer();
+		openDialog(customer);
 	}
 }

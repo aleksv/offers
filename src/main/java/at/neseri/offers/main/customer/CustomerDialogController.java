@@ -18,6 +18,7 @@ public class CustomerDialogController extends AStageController {
 	@FXML
 	private Button cancelButton;
 	private Customer customer;
+	private CustomerDao customerDao;
 
 	public void initialize() {
 
@@ -25,18 +26,26 @@ public class CustomerDialogController extends AStageController {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-		customerIdTextfield.setText(String.valueOf(customer.getId()));
-		nachnameTextfield.setText(String.valueOf(customer.getNachname()));
-		vornameTextfield.setText(String.valueOf(customer.getVorname()));
+		if (customer.getId() != 0)
+			customerIdTextfield.setText(String.valueOf(customer.getId()));
+		if (customer.getNachname() != null)
+			nachnameTextfield.setText(String.valueOf(customer.getNachname()));
+		if (customer.getVorname() != null)
+			vornameTextfield.setText(String.valueOf(customer.getVorname()));
 	}
 
 	public void onSaveButton() {
 		customer.setVorname(vornameTextfield.getText());
 		customer.setNachname(nachnameTextfield.getText());
+		customerDao.saveCustomer(customer);
 		getStage().close();
 	}
 
 	public void onCancelButton() {
 		getStage().close();
+	}
+
+	public void setCustomerDao(CustomerDao customerDao) {
+		this.customerDao = customerDao;
 	}
 }

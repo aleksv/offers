@@ -44,4 +44,8 @@ public class Customer {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return nachname + " " + vorname + " (" + id + ")";
+	}
 }
