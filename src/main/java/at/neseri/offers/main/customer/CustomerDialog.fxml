@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.customer.CustomerDialogController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints fillHeight="false" valignment="BOTTOM" vgrow="ALWAYS" />
+   </rowConstraints>
+   <children>
+      <TextField fx:id="customerIdTextfield" editable="false" promptText="ID" />
+      <TextField fx:id="nachnameTextfield" promptText="Nachname" GridPane.rowIndex="1" />
+      <TextField fx:id="vornameTextfield" promptText="Vorname" GridPane.rowIndex="2" />
+      <HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.rowIndex="3">
+         <children>
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+            <Button fx:id="cancelButton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+         </children>
+      </HBox>
+   </children>
+</GridPane>
