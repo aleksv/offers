@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<GridPane alignment="TOP_CENTER" hgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.item.ItemController">
+	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+		<ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="100.0" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+		<RowConstraints minHeight="20.0" vgrow="ALWAYS" />
+		<RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+	</rowConstraints>
+	<padding>
+		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+	</padding>
+	<children>
+		<TextField fx:id="filterTextfield" promptText="Filter" GridPane.columnSpan="2" />
+		<TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+		</TableView>
+      <Button mnemonicParsing="false" onAction="#onNeuButton" text="Neu" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+
+	</children>
+</GridPane>
