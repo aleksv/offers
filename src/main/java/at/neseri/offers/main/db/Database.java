@@ -35,6 +35,14 @@ public class Database implements AutoCloseable {
 					+ "  nachname text NOT NULL, "
 					+ "  vorname text NOT NULL "
 					+ ");");
+
+			statement = connection.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS item ("
+					+ "  id integer PRIMARY KEY, "
+					+ "  name text NOT NULL, "
+					+ "  unit text NULL, "
+					+ "  price real NOT NULL "
+					+ ");");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

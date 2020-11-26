@@ -1,10 +1,13 @@
 package at.neseri.offers.main.customer;
 
-public class Customer {
+import at.neseri.offers.main.db.IIdentity;
+
+public class Customer implements IIdentity {
 	private int id;
 	private String vorname;
 	private String nachname;
 
+	@Override
 	public int getId() {
 		return id;
 	}

@@ -9,45 +9,30 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.MainController">
+<VBox xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="at.neseri.offers.main.MainController">
 	<stylesheets>
 		<URL value="@style.css" />
 	</stylesheets>
 	<children>
-		<MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-			<menus>
-				<Menu mnemonicParsing="false" text="File">
-					<items>
-						<MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#onActionCloseMenuItem" text="Close" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Edit">
-					<items>
-						<MenuItem mnemonicParsing="false" text="Delete" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Help">
-					<items>
-						<MenuItem mnemonicParsing="false" text="About" />
-					</items>
-				</Menu>
-			</menus>
-		</MenuBar>
 		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>
-            <Tab text="Angebote">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-            <Tab text="Positionen">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
+				<Tab text="Angebote">
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="180.0" prefWidth="200.0" />
+					</content>
+				</Tab>
+				<Tab text="Positionen">
+					<content>
+						<fx:include fx:id="item" source="item/List.fxml" />
+					</content>
+				</Tab>
 				<Tab text="Kundenstamm">
 					<content>
-						<fx:include fx:id="customer" source="customer/Customer.fxml" />
+						<fx:include fx:id="customer"
+							source="customer/List.fxml" />
 					</content>
 				</Tab>
 			</tabs>
