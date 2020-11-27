@@ -37,13 +37,14 @@ public abstract class ADao<T extends IIdentity> {
 
 		Map<String, DaoFunction<T, Object>> mappers = new TreeMap<>(getUpsertDbMapper());
 		if (entry.getId() > 0) {
+			AtomicInteger i = new AtomicInteger(0);
 			executeUpdate("UPDATE " + tablename + " SET "
 					+ mappers.keySet().stream().map(k -> " " + k + "=? ").collect(Collectors.joining(","))
 					+ " WHERE id = ?", Optional.of(ps -> {
-						AtomicInteger i = new AtomicInteger(0);
 						for (DaoFunction<T, Object> fct : mappers.values()) {
 							ps.setObject(i.incrementAndGet(), fct.apply(entry));
 						}
+						ps.setObject(i.incrementAndGet(), entry.getId());
 					}));
 		} else {
 			executeUpdate("INSERT INTO " + tablename + " ("
@@ -87,6 +88,7 @@ public abstract class ADao<T extends IIdentity> {
 
 	protected void executeUpdate(String sql, Optional<DaoConsumer<PreparedStatement>> consumer) {
 		try {
+			System.out.println(sql);
 			PreparedStatement prepareStatement = database.getConnection().prepareStatement(sql);
 			consumer.ifPresent(c -> {
 				try {

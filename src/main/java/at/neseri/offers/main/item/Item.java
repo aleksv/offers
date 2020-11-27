@@ -62,4 +62,8 @@ public class Item implements IIdentity {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return name + " ( " + id + ")";
+	}
 }

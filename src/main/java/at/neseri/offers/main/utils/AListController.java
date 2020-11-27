@@ -41,31 +41,31 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 			tableView.getColumns().add(c);
 		});
 
-		initContextMenu(tableView);
-		updateCustomerTable();
+		initContextMenu();
+		updateEntryTable();
 	}
 
-	protected void initContextMenu(TableView<T> customerTableView2) {
+	protected void initContextMenu() {
 		ContextMenu menu = new ContextMenu();
 
 		menu.getItems().add(new MenuItem("Bearbeiten"));
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
-			T customer = tableView.getSelectionModel().getSelectedItem();
-			openDialog(customer);
+			T entry = tableView.getSelectionModel().getSelectedItem();
+			openDialog(entry);
 		});
 
 		menu.getItems().add(new MenuItem("Löschen"));
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
-			T customer = tableView.getSelectionModel().getSelectedItem();
+			T entry = tableView.getSelectionModel().getSelectedItem();
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setHeaderText("Eintrag löschen");
-			alert.setContentText(customer.toString());
+			alert.setContentText(entry.toString());
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
-				dao.deleteEntry(customer);
-				updateCustomerTable();
+				dao.deleteEntry(entry);
+				updateEntryTable();
 			}
 
 		});
@@ -73,12 +73,12 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		tableView.setContextMenu(menu);
 	}
 
-	protected void updateCustomerTable() {
+	protected void updateEntryTable() {
 		masterList = new ObservableListWrapper(dao.getEntries());
 		FilteredList<T> filteredData = new FilteredList<>(masterList, p -> true);
 
 		filterTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(customer -> {
+			filteredData.setPredicate(entry -> {
 				// If filter text is empty, display all persons.
 				if (newValue == null || newValue.isEmpty()) {
 					return true;
@@ -86,7 +86,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 
 				// Compare first name and last name of every person with filter text.
 				String lowerCaseFilter = newValue.toLowerCase();
-				return hasFilterMatched(customer, lowerCaseFilter); // Does not match.
+				return hasFilterMatched(entry, lowerCaseFilter); // Does not match.
 			});
 		});
 
@@ -96,10 +96,10 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		tableView.refresh();
 	}
 
-	protected void openDialog(T customer) {
+	protected void openDialog(T entry) {
 		Stage stage = UiUtils.getStage(getClass().getResource("Dialog.fxml"),
 				(AStageController c1) -> {
-					c1.setEntry(customer);
+					c1.setEntry(entry);
 					c1.setListController(AListController.this);
 				});
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -107,7 +107,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		stage.setWidth(200);
 		stage.setHeight(200);
 		stage.showAndWait();
-		updateCustomerTable();
+		updateEntryTable();
 	}
 
 	public void onNeuButton() {

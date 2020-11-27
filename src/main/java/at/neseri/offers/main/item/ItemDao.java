@@ -30,25 +30,4 @@ public class ItemDao extends ADao<Item> {
 		return map;
 	}
 
-//	@Override
-//	public List<Item> getEntries() {
-//		List<Item> customers = new ArrayList<>();
-//		iterateResultSet("SELECT id, name, price, unit FROM item", rs -> {
-//			customers.add(new Item().withId(rs.getInt("id")).withName(rs.getString("name"))
-//					.withPrice(rs.getDouble("price")).withUnit(rs.getString("unit")));
-//		});
-//		return customers;
-//	}
-//
-//	@Override
-//	public void saveEntry(Item customer) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void deleteEntry(Item customer) {
-//		// TODO Auto-generated method stub
-//
-//	}
 }
