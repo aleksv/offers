@@ -1,7 +1,9 @@
 package at.neseri.offers.main.utils;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 
@@ -29,8 +31,10 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	@FXML
 	protected TableView<T> tableView;
 	protected TT dao;
-	protected ObservableListWrapper<T> masterList;
+	protected ObservableListWrapper<T> masterList = new ObservableListWrapper<>(Collections.emptyList());
+	protected Map<Integer, T> masterMap;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialize() {
 		dao = getDaoInstance();
 
@@ -74,7 +78,8 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	}
 
 	protected void updateEntryTable() {
-		masterList = new ObservableListWrapper(dao.getEntries());
+		masterList = new ObservableListWrapper<>(dao.getEntries(masterList));
+		masterMap = masterList.stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
 		FilteredList<T> filteredData = new FilteredList<>(masterList, p -> true);
 
 		filterTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -98,7 +103,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 
 	protected void openDialog(T entry) {
 		Stage stage = UiUtils.getStage(getClass().getResource("Dialog.fxml"),
-				(AStageController c1) -> {
+				(AStageController<T, TT> c1) -> {
 					c1.setEntry(entry);
 					c1.setListController(AListController.this);
 				});
@@ -111,14 +116,16 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	}
 
 	public void onNeuButton() {
-		openDialog(getInstance());
+		openDialog(dao.getInstance());
 	}
 
 	public abstract boolean hasFilterMatched(T entry, String lowerCaseFilter);
 
-	protected abstract T getInstance();
-
 	protected abstract TT getDaoInstance();
 
 	protected abstract Map<String, String> getColumnFields();
+
+	public Map<Integer, T> getMasterMap() {
+		return Collections.unmodifiableMap(masterMap);
+	}
 }

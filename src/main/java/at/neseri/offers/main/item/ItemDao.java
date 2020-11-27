@@ -14,9 +14,9 @@ public class ItemDao extends ADao<Item> {
 	}
 
 	@Override
-	protected DaoFunction<ResultSet, Item> getSelectDbMapper() {
-		return rs -> {
-			return new Item().withId(rs.getInt("id")).withName(rs.getString("name")).withPrice(rs.getDouble("price"))
+	protected DaoBiConsumer<ResultSet, Item> getSelectDbMapper() {
+		return (rs, item) -> {
+			item.withId(rs.getInt("id")).withName(rs.getString("name")).withPrice(rs.getDouble("price"))
 					.withUnit(rs.getString("unit"));
 		};
 	}
@@ -28,6 +28,11 @@ public class ItemDao extends ADao<Item> {
 		map.put("price", c -> c.getPrice());
 		map.put("unit", c -> c.getUnit() == null ? c.getUnit() : c.getUnit().toString());
 		return map;
+	}
+
+	@Override
+	public Item getInstance() {
+		return new Item();
 	}
 
 }

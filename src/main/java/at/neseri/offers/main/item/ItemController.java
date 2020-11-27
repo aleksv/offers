@@ -15,11 +15,6 @@ public class ItemController extends AListController<Item, ItemDao> {
 	}
 
 	@Override
-	protected Item getInstance() {
-		return new Item();
-	}
-
-	@Override
 	protected ItemDao getDaoInstance() {
 		return new ItemDao(Main.getDatabase());
 	}

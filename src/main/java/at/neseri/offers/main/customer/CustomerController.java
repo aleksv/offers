@@ -9,11 +9,6 @@ import at.neseri.offers.main.utils.AListController;
 public class CustomerController extends AListController<Customer, CustomerDao> {
 
 	@Override
-	protected Customer getInstance() {
-		return new Customer();
-	}
-
-	@Override
 	protected CustomerDao getDaoInstance() {
 		return new CustomerDao(Main.getDatabase());
 	}

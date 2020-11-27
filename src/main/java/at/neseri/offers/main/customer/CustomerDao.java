@@ -14,9 +14,9 @@ public class CustomerDao extends ADao<Customer> {
 	}
 
 	@Override
-	protected DaoFunction<ResultSet, Customer> getSelectDbMapper() {
-		return rs -> {
-			return new Customer().withId(rs.getInt("id")).withVorname(rs.getString("vorname"))
+	protected DaoBiConsumer<ResultSet, Customer> getSelectDbMapper() {
+		return (rs, c) -> {
+			c.withId(rs.getInt("id")).withVorname(rs.getString("vorname"))
 					.withNachname(rs.getString("nachname"));
 		};
 	}
@@ -66,4 +66,9 @@ public class CustomerDao extends ADao<Customer> {
 //			ps.setInt(1, customer.getId());
 //		}));
 //	}
+
+	@Override
+	public Customer getInstance() {
+		return new Customer();
+	}
 }
