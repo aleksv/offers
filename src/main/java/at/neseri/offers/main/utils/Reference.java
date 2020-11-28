@@ -1,16 +1,16 @@
 package at.neseri.offers.main.utils;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
-public class Reference<T> {
+public class Reference<TIn, TOut> {
 
-	private Supplier<T> supp;
+	private Function<TIn, TOut> supp;
 
-	public Reference(Supplier<T> supp) {
+	public Reference(Function<TIn, TOut> supp) {
 		this.supp = supp;
 	}
 
-	public T get() {
-		return supp.get();
+	public TOut get(TIn id) {
+		return supp.apply(id);
 	}
 }

@@ -64,6 +64,6 @@ public class Item implements IIdentity {
 
 	@Override
 	public String toString() {
-		return name + " ( " + id + ")";
+		return name + " (" + id + ")";
 	}
 }
