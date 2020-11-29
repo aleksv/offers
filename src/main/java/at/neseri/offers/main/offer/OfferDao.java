@@ -1,6 +1,7 @@
 package at.neseri.offers.main.offer;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +28,7 @@ public class OfferDao extends ADao<Offer> {
 			o.withId(rs.getInt("id")).withNote(rs.getString("note"))
 					.withItemIds(getItemIds(rs.getInt("id")))
 					.withCustomerId(rs.getInt("id_customer"))
+					.withCreated(LocalDate.ofEpochDay(rs.getLong("created")))
 					.withItemReference(new Reference<Set<Integer>, List<Item>>((ids) -> ids.stream()
 							.map(id -> MainController.getInstance().getItemController().getMasterMap().get(id))
 							.collect(Collectors.toList())))
@@ -39,6 +41,8 @@ public class OfferDao extends ADao<Offer> {
 	protected Map<String, DaoFunction<Offer, Object>> getUpsertDbMapper() {
 		Map<String, DaoFunction<Offer, Object>> map = new HashMap<String, ADao.DaoFunction<Offer, Object>>();
 		map.put("note", e -> e.getNote());
+		map.put("id_customer", e -> e.getCustomerId());
+		map.put("created", e -> e.getCreated().toEpochDay());
 		return map;
 	}
 

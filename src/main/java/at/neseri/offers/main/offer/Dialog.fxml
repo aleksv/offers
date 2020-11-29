@@ -11,7 +11,7 @@
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
 		<RowConstraints />
@@ -26,5 +26,6 @@
 				<Button fx:id="cancelButton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
 		</HBox>
+      <ChoiceBox fx:id="customerChoiceBox" prefHeight="25.0" prefWidth="318.0" GridPane.rowIndex="1" />
 	</children>
 </GridPane>

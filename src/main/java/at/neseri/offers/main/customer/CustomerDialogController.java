@@ -14,14 +14,13 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 	private TextField vornameTextfield;
 
 	@Override
-	public void setEntry(Customer customer) {
-		this.entry = customer;
-		if (customer.getId() != 0)
-			customerIdTextfield.setText(String.valueOf(customer.getId()));
-		if (customer.getNachname() != null)
-			nachnameTextfield.setText(String.valueOf(customer.getNachname()));
-		if (customer.getVorname() != null)
-			vornameTextfield.setText(String.valueOf(customer.getVorname()));
+	public void onLoad() {
+		if (entry.getId() != 0)
+			customerIdTextfield.setText(String.valueOf(entry.getId()));
+		if (entry.getNachname() != null)
+			nachnameTextfield.setText(String.valueOf(entry.getNachname()));
+		if (entry.getVorname() != null)
+			vornameTextfield.setText(String.valueOf(entry.getVorname()));
 	}
 
 	@Override

@@ -25,8 +25,7 @@ public class ItemDialogController extends AStageController<Item, ItemDao> {
 	}
 
 	@Override
-	public void setEntry(Item entry) {
-		this.entry = entry;
+	public void onLoad() {
 		idTextfield.setText(String.valueOf(entry.getId()));
 		if (entry.getUnit() != null)
 			unitChoiceBox.getSelectionModel().select(entry.getUnit());

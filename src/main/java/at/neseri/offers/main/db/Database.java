@@ -47,7 +47,7 @@ public class Database implements AutoCloseable {
 			statement = connection.createStatement();
 			statement.execute("CREATE TABLE IF NOT EXISTS offer ("
 					+ "  id integer PRIMARY KEY, "
-					+ "  created date NOT NULL, "
+					+ "  created integer NOT NULL, "
 					+ "  id_customer integer NULL, "
 					+ "  note text NOT NULL "
 					+ ");");

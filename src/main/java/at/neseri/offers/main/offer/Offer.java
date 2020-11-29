@@ -1,5 +1,6 @@
 package at.neseri.offers.main.offer;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import at.neseri.offers.main.utils.Reference;
 public class Offer implements IIdentity {
 	private int id;
 	private String note;
+	private LocalDate created = LocalDate.now();
 	private Reference<Integer, Customer> customer;
 	private Reference<Set<Integer>, List<Item>> items;
 	private int customerId;
@@ -52,6 +54,10 @@ public class Offer implements IIdentity {
 		this.customerId = customerId;
 	}
 
+	public int getCustomerId() {
+		return customerId;
+	}
+
 	public Offer withCustomerId(int customerId) {
 		this.customerId = customerId;
 		return this;
@@ -73,6 +79,19 @@ public class Offer implements IIdentity {
 
 	public Offer withItemIds(Set<Integer> itemIds) {
 		this.itemIds = itemIds;
+		return this;
+	}
+
+	public LocalDate getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDate date) {
+		this.created = date;
+	}
+
+	public Offer withCreated(LocalDate date) {
+		this.created = date;
 		return this;
 	}
 

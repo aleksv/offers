@@ -42,7 +42,11 @@ public abstract class AStageController<T extends IIdentity, TT extends ADao<T>> 
 		getStage().close();
 	}
 
-	public abstract void setEntry(T entry);
+	final public void setEntry(T entry) {
+		this.entry = entry;
+	}
+
+	public abstract void onLoad();
 
 	protected abstract void save();
 }

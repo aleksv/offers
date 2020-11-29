@@ -34,10 +34,10 @@ public class Main extends Application {
 		stage.setScene(scene);
 		stage.setTitle("FileOps");
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
-		stage.setWidth(500);
-		stage.setMinWidth(500);
-		stage.setHeight(500);
-		stage.setMinHeight(500);
+		stage.setWidth(1000);
+		stage.setMinWidth(600);
+		stage.setHeight(600);
+		stage.setMinHeight(600);
 		stage.show();
 
 		mainController = fxmlLoader.getController();

@@ -9,6 +9,7 @@ import com.sun.javafx.collections.ObservableListWrapper;
 
 import at.neseri.offers.main.db.ADao;
 import at.neseri.offers.main.db.IIdentity;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -106,6 +107,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 				(AStageController<T, TT> c1) -> {
 					c1.setEntry(entry);
 					c1.setListController(AListController.this);
+					c1.onLoad();
 				});
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Kunde");
@@ -127,5 +129,9 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 
 	public Map<Integer, T> getMasterMap() {
 		return Collections.unmodifiableMap(masterMap);
+	}
+
+	public ObservableList<T> getMasterList() {
+		return masterList;
 	}
 }

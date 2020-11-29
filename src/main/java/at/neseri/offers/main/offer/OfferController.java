@@ -25,6 +25,8 @@ public class OfferController extends AListController<Offer, OfferDao> {
 		m.put("ID", "id");
 		m.put("Kunde", "customer");
 		m.put("Bemerkung", "note");
+		m.put("Erstellt", "created");
+
 		return m;
 	}
 
