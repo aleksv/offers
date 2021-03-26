@@ -1,6 +1,7 @@
 package at.neseri.offers.main.utils;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,6 +93,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 
 	protected void updateEntryTable() {
 		masterList = new ObservableListWrapper<>(dao.getEntries(masterList));
+		masterList.sort(getMasterListSortComparator());
 		masterMap = masterList.stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
 		FilteredList<T> filteredData = new FilteredList<>(masterList, p -> true);
 
@@ -122,15 +124,21 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 					c1.onLoad();
 				});
 		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.setTitle("Kunde");
-		stage.setWidth(200);
-		stage.setHeight(200);
+		stage.setTitle(getTitle());
+		stage.setWidth(getWidth());
+		stage.setHeight(getHeight());
 		stage.showAndWait();
 		updateEntryTable();
 	}
 
 	public void onNeuButton() {
 		openDialog(dao.getInstance());
+	}
+
+	protected Comparator<T> getMasterListSortComparator() {
+		return (o1, o2) -> {
+			return String.valueOf(o1).compareTo(String.valueOf(o2));
+		};
 	}
 
 	public abstract boolean hasFilterMatched(T entry, String lowerCaseFilter);
@@ -146,4 +154,15 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	public ObservableList<T> getMasterList() {
 		return masterList;
 	}
+
+	protected int getHeight() {
+		return 400;
+	}
+
+	protected int getWidth() {
+		return 400;
+	}
+
+	protected abstract String getTitle();
+
 }

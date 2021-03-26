@@ -29,4 +29,9 @@ public class ItemController extends AListController<Item, ItemDao> {
 		return m;
 	}
 
+	@Override
+	protected String getTitle() {
+		return "Positionen";
+	}
+
 }

@@ -13,6 +13,7 @@ import at.neseri.offers.main.utils.Reference;
 public class Offer implements IIdentity {
 	private int id;
 	private String note;
+	private String subject;
 	private LocalDate created = LocalDate.now();
 	private Reference<Integer, Customer> customer;
 	private Reference<Set<Integer>, List<Item>> items;
@@ -93,6 +94,19 @@ public class Offer implements IIdentity {
 
 	public Offer withCreated(LocalDate date) {
 		this.created = date;
+		return this;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public Offer withSubject(String subject) {
+		this.subject = subject;
 		return this;
 	}
 

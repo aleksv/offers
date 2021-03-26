@@ -52,7 +52,8 @@ public class Database implements AutoCloseable {
 					+ "  id integer PRIMARY KEY, "
 					+ "  created integer NOT NULL, "
 					+ "  id_customer integer NULL, "
-					+ "  note text NULL "
+					+ "  note text NULL, "
+					+ "  subject text NOT NULL "
 					+ ");");
 
 			statement = connection.createStatement();

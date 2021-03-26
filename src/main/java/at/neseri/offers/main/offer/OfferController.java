@@ -23,11 +23,25 @@ public class OfferController extends AListController<Offer, OfferDao> {
 	protected Map<String, String> getColumnFields() {
 		Map<String, String> m = new LinkedHashMap<>();
 		m.put("ID", "id");
+		m.put("Erstellt", "created");
+		m.put("Betreff", "subject");
 		m.put("Kunde", "customer");
 		m.put("Bemerkung", "note");
-		m.put("Erstellt", "created");
-
 		return m;
 	}
 
+	@Override
+	protected String getTitle() {
+		return "Angebote";
+	}
+
+	@Override
+	protected int getWidth() {
+		return 1000;
+	}
+
+	@Override
+	protected int getHeight() {
+		return 600;
+	}
 }

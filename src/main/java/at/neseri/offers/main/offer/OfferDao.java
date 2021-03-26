@@ -29,6 +29,7 @@ public class OfferDao extends ADao<Offer> {
 			o.withId(rs.getInt("id")).withNote(rs.getString("note"))
 					.withItemIds(getItemIds(rs.getInt("id")))
 					.withCustomerId(rs.getInt("id_customer"))
+					.withSubject(rs.getString("subject"))
 					.withCreated(LocalDate.ofEpochDay(rs.getLong("created")));
 		};
 	}
@@ -36,9 +37,10 @@ public class OfferDao extends ADao<Offer> {
 	@Override
 	protected Map<String, DaoFunction<Offer, Object>> getUpsertDbMapper() {
 		Map<String, DaoFunction<Offer, Object>> map = new HashMap<String, ADao.DaoFunction<Offer, Object>>();
-		map.put("note", e -> e.getNote());
-		map.put("id_customer", e -> e.getCustomerId());
+		map.put("note", Offer::getNote);
+		map.put("id_customer", Offer::getCustomerId);
 		map.put("created", e -> e.getCreated().toEpochDay());
+		map.put("subject", Offer::getSubject);
 		return map;
 	}
 

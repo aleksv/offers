@@ -27,4 +27,9 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 		m.put("Vorname", "vorname");
 		return m;
 	}
+
+	@Override
+	protected String getTitle() {
+		return "Kunden";
+	}
 }

@@ -1,10 +1,14 @@
 .root {
 	-fx-base: #89A1ff;
-	-fx-background: white;
+	-fx-background: #eeeeee;
 	-fx-dark-text-color: #000;
     -fx-mid-text-color: #333;
     -fx-light-text-color: #999;
     -fx-accent: #60B3ff;
     -fx-focus-color: #60B3ff;
     -fx-font-size: 10pt ;
+}
+
+Label {
+    -fx-padding: 0 5pt 0 5pt;
 }
