@@ -3,7 +3,7 @@ package at.neseri.offers.main.item;
 import java.util.Arrays;
 
 public enum Unit {
-	HOUR("Stunde"), LITER("Liter"), KG("Kilogramm");
+	NONE("-"), HOUR("Stunde"), LITER("Liter"), KG("Kilogramm");
 
 	private String name;
 

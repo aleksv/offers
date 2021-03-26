@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,12 +29,7 @@ public class OfferDao extends ADao<Offer> {
 			o.withId(rs.getInt("id")).withNote(rs.getString("note"))
 					.withItemIds(getItemIds(rs.getInt("id")))
 					.withCustomerId(rs.getInt("id_customer"))
-					.withCreated(LocalDate.ofEpochDay(rs.getLong("created")))
-					.withItemReference(new Reference<Set<Integer>, List<Item>>((ids) -> ids.stream()
-							.map(id -> MainController.getInstance().getItemController().getMasterMap().get(id))
-							.collect(Collectors.toList())))
-					.withCustomerReference(new Reference<Integer, Customer>(
-							(id) -> MainController.getInstance().getCustomerController().getMasterMap().get(id)));
+					.withCreated(LocalDate.ofEpochDay(rs.getLong("created")));
 		};
 	}
 
@@ -54,8 +50,18 @@ public class OfferDao extends ADao<Offer> {
 	}
 
 	@Override
+	public void deleteEntry(Offer entry) {
+		super.deleteEntry(entry);
+		executeUpdate("DELETE FROM offerToItem WHERE id_offer = " + entry.getId(), Optional.empty());
+	}
+
+	@Override
 	public Offer getInstance() {
-		return new Offer();
+		return new Offer().withItemReference(new Reference<Set<Integer>, List<Item>>((ids) -> ids.stream()
+				.map(id -> MainController.getInstance().getItemController().getMasterMap().get(id))
+				.collect(Collectors.toList())))
+				.withCustomerReference(new Reference<Integer, Customer>(
+						(id) -> MainController.getInstance().getCustomerController().getMasterMap().get(id)));
 	}
 
 }

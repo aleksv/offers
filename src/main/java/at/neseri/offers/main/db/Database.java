@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.prefs.Preferences;
 
 public class Database implements AutoCloseable {
 
@@ -16,6 +17,8 @@ public class Database implements AutoCloseable {
 	private Connection createConnection() {
 		Connection conn = null;
 		try {
+			getDbPath();
+
 			// db parameters
 			String url = "jdbc:sqlite:C:\\Users\\av\\Desktop\\chinook.db";
 			// create a connection to the database
@@ -49,13 +52,14 @@ public class Database implements AutoCloseable {
 					+ "  id integer PRIMARY KEY, "
 					+ "  created integer NOT NULL, "
 					+ "  id_customer integer NULL, "
-					+ "  note text NOT NULL "
+					+ "  note text NULL "
 					+ ");");
 
 			statement = connection.createStatement();
 			statement.execute("CREATE TABLE IF NOT EXISTS offerToItem ("
 					+ "  id_offer integer NULL, "
-					+ "  id_item integer NULL "
+					+ "  id_item integer NULL, "
+					+ "  quantity real NULL "
 					+ ");");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -73,5 +77,19 @@ public class Database implements AutoCloseable {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public void getDbPath() {
+		// Retrieve the user preference node for the package com.mycompany
+		Preferences prefs = Preferences.userNodeForPackage(getClass());
+
+		// Set the value of the preference
+		String newValue = "a string";
+		prefs.put("dbPath", newValue);
+
+		// Get the value of the preference;
+		// default value is returned if the preference does not exist
+		String defaultValue = "default string";
+		String propertyValue = prefs.get("dbPath", defaultValue); // "a string"
 	}
 }

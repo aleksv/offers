@@ -2,6 +2,7 @@ package at.neseri.offers.main.offer;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import at.neseri.offers.main.customer.Customer;
@@ -47,7 +48,7 @@ public class Offer implements IIdentity {
 	}
 
 	public Customer getCustomer() {
-		return customer.get(customerId);
+		return Optional.ofNullable(customer).map(c -> c.get(customerId)).orElse(null);
 	}
 
 	public void setCustomerId(int customerId) {

@@ -18,7 +18,7 @@
 	<children>
 		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>
-				<Tab text="Angebote">
+				<Tab text="Angebote" >
 					<content>
 						<fx:include fx:id="offer" source="offer/List.fxml" />
 					</content>
