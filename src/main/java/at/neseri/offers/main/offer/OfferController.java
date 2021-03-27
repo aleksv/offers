@@ -37,11 +37,11 @@ public class OfferController extends AListController<Offer, OfferDao> {
 
 	@Override
 	protected int getWidth() {
-		return 1000;
+		return 800;
 	}
 
 	@Override
 	protected int getHeight() {
-		return 600;
+		return 550;
 	}
 }
