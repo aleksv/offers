@@ -88,9 +88,18 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 
 			addItemChoicebox.get().getSelectionModel().selectedIndexProperty()
 					.addListener((observableValue, number, number2) -> {
-						detailsTextarea.get()
-								.appendText(String.valueOf(addItemChoicebox.get().getItems().get((Integer) number2))
-										+ "\n");
+						int index = number2.intValue();
+						if (index < 0) {
+							return;
+						}
+						if (detailsTextarea.get().getText().trim().isBlank()) {
+							detailsTextarea.get()
+									.setText(String.valueOf(addItemChoicebox.get().getItems().get(index)));
+						} else {
+							detailsTextarea.get()
+									.appendText("\n" + String.valueOf(addItemChoicebox.get().getItems().get(index)));
+						}
+						addItemChoicebox.get().getSelectionModel().clearSelection();
 					});
 
 //			addItemChoicebox.get().addEventHandler(eventType, eventHandler);
