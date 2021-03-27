@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.UnaryOperator;
+
+import org.controlsfx.control.textfield.TextFields;
 
 import at.neseri.offers.main.MainController;
 import at.neseri.offers.main.customer.Customer;
@@ -20,6 +23,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -70,6 +75,9 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			Label posLabel = null;
 			AtomicReference<ChoiceBox<Item>> addItemChoicebox = new AtomicReference<>();
 			AtomicReference<TextArea> detailsTextarea = new AtomicReference<>();
+			AtomicReference<TextField> costTextfield = new AtomicReference<>();
+			AtomicReference<TextField> posTitleTextfield = new AtomicReference<>();
+
 			for (Node n : gp.getChildren()) {
 				switch (Optional.of(n).map(Node::getId).orElse("")) {
 				case "posLabel":
@@ -83,6 +91,12 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 					addItemChoicebox.set((ChoiceBox<Item>) n);
 					addItemChoicebox.get().setItems(MainController.getInstance().getItemController().getMasterList());
 					break;
+				case "costTextfield":
+					costTextfield.set((TextField) n);
+					break;
+				case "posTitleTextfield":
+					posTitleTextfield.set((TextField) n);
+					break;
 				}
 			}
 
@@ -93,8 +107,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 							return;
 						}
 						if (detailsTextarea.get().getText().trim().isBlank()) {
-							detailsTextarea.get()
-									.setText(String.valueOf(addItemChoicebox.get().getItems().get(index)));
+							detailsTextarea.get().setText(String.valueOf(addItemChoicebox.get().getItems().get(index)));
 						} else {
 							detailsTextarea.get()
 									.appendText("\n" + String.valueOf(addItemChoicebox.get().getItems().get(index)));
@@ -102,8 +115,21 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 						addItemChoicebox.get().getSelectionModel().clearSelection();
 					});
 
-//			addItemChoicebox.get().addEventHandler(eventType, eventHandler);
+			UnaryOperator<Change> filter = change -> {
+				String text = change.getText();
+				if (text.matches("[0-9,]*") && ((costTextfield.get().getText() + text).replaceAll("[^,]+", "")).length()<=1) {
+					return change;
+				}
 
+				return null;
+			};
+
+			TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+			costTextfield.get().setTextFormatter(textFormatter);
+
+			
+			TextFields.bindAutoCompletion(posTitleTextfield.get(), "abc");
+			
 			itemsVbox.getChildren().add(gp);
 
 		} catch (IOException e) {

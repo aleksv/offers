@@ -55,13 +55,17 @@ public class Database implements AutoCloseable {
 					+ "  note text NULL, "
 					+ "  subject text NOT NULL "
 					+ ");");
-
+			
 			statement = connection.createStatement();
-			statement.execute("CREATE TABLE IF NOT EXISTS offerToItem ("
-					+ "  id_offer integer NULL, "
-					+ "  id_item integer NULL, "
-					+ "  quantity real NULL "
+			statement.execute("CREATE TABLE IF NOT EXISTS offerPosition ("
+					+ "  id integer PRIMARY KEY, "
+					+ "  id_offer integer NOT NULL, "
+					+ "  position integer NOT NULL, "
+					+ "  cost real NULL, "
+					+ "  details text NOT NULL, "
+					+ "  title text NOT NULL "
 					+ ");");
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
