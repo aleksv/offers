@@ -117,7 +117,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 
 			UnaryOperator<Change> filter = change -> {
 				String text = change.getText();
-				if (text.matches("[0-9,]*") && ((costTextfield.get().getText() + text).replaceAll("[^,]+", "")).length()<=1) {
+				if (text.matches("[0-9,]*")
+						&& ((costTextfield.get().getText() + text).replaceAll("[^,]+", "")).length() <= 1) {
 					return change;
 				}
 
@@ -127,9 +128,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			TextFormatter<String> textFormatter = new TextFormatter<>(filter);
 			costTextfield.get().setTextFormatter(textFormatter);
 
-			
 			TextFields.bindAutoCompletion(posTitleTextfield.get(), "abc");
-			
+
 			itemsVbox.getChildren().add(gp);
 
 		} catch (IOException e) {
