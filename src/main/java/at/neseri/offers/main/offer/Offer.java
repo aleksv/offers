@@ -101,4 +101,9 @@ public class Offer implements IIdentity {
 	public List<OfferPosition> getOfferPositions() {
 		return offerPositions.get(getId());
 	}
+
+	@Override
+	public String toString() {
+		return subject + " (" + id + ")";
+	}
 }

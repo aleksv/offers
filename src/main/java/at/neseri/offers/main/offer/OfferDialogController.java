@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import org.controlsfx.control.textfield.TextFields;
 
@@ -20,7 +21,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -43,40 +43,44 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	@FXML
 	private Button addItemButton;
 	private List<Pane> itemPanes = new ArrayList<>();
-
-	public void initialize() {
-		ObservableList<Customer> masterList = MainController.getInstance().getCustomerController().getMasterList();
-		customerChoiceBox.setItems(masterList);
-	}
+	private List<String> posTitleAutocompleteSuggestions;
+	private final List<OfferPosition> offerPositions = new ArrayList<>();
 
 	@Override
 	public void onLoad() {
+
+		ObservableList<Customer> masterList = MainController.getInstance().getCustomerController().getMasterList();
+		customerChoiceBox.setItems(masterList);
+
+		posTitleAutocompleteSuggestions = MainController.getInstance().getOfferController().getMasterList()
+				.parallelStream()
+				.flatMap(o -> o.getOfferPositions().stream()).map(OfferPosition::getPosTitle).distinct().sorted()
+				.collect(Collectors.toList());
+
 		idTextfield.setText(String.valueOf(entry.getId()));
 		customerChoiceBox.getSelectionModel().select(entry.getCustomer());
 		Optional.ofNullable(entry.getSubject()).ifPresent(s -> subjectTextfield.setText(s));
 
 		entry.getOfferPositions().stream().forEach(op -> addItemPanel(op));
+
+		offerPositions.addAll(entry.getOfferPositions());
 	}
 
 	@Override
 	protected void save() {
 		entry.setCustomerId(customerChoiceBox.getSelectionModel().getSelectedItem().getId());
 		entry.setSubject(subjectTextfield.getText());
+		entry.getOfferPositions().clear();
+		entry.getOfferPositions().addAll(offerPositions);
 	}
 
 	public void onAddItemButton() {
-		System.out.println("+");
-
 		OfferPosition offerPosition = new OfferPosition();
 		addItemPanel(offerPosition);
-		entry.getOfferPositions().add(offerPosition);
-		offerPosition.setCost(0d);
-		offerPosition.setDetails("xxx");
-		offerPosition.setPosition(4);
-		offerPosition.setPosTitle("xxy");
-
+		offerPositions.add(offerPosition);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addItemPanel(OfferPosition offerPosition) {
 		try {
 			itemsVbox.getChildren().add(new Separator());
@@ -87,19 +91,15 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			AtomicReference<TextArea> detailsTextarea = new AtomicReference<>();
 			AtomicReference<TextField> costTextfield = new AtomicReference<>();
 			AtomicReference<TextField> posTitleTextfield = new AtomicReference<>();
+			AtomicReference<Button> deleteItemButton = new AtomicReference<>();
 
 			gp.getChildren().stream().filter(Objects::nonNull).forEach(n -> {
 				switch (Optional.of(n).map(Node::getId).orElse("")) {
-				case "posLabel":
-					Label posLabel = ((Label) n);
-					posLabel.setText("Pos. " + itemPanes.size());
-					break;
 				case "detailsTextarea":
 					detailsTextarea.set((TextArea) n);
 					break;
 				case "addItemChoicebox":
 					addItemChoicebox.set((ChoiceBox<Item>) n);
-					addItemChoicebox.get().setItems(MainController.getInstance().getItemController().getMasterList());
 					break;
 				case "costTextfield":
 					costTextfield.set((TextField) n);
@@ -107,6 +107,29 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 				case "posTitleTextfield":
 					posTitleTextfield.set((TextField) n);
 					break;
+				case "deleteItemButton":
+					deleteItemButton.set((Button) n);
+					break;
+				}
+			});
+
+			detailsTextarea.get().setText(offerPosition.getDetails());
+			addItemChoicebox.get().setItems(MainController.getInstance().getItemController().getMasterList());
+			updateCost(offerPosition, costTextfield, 0);
+			posTitleTextfield.get().setText(offerPosition.getPosTitle());
+
+			detailsTextarea.get().textProperty().addListener(s -> {
+				offerPosition.setDetails(((javafx.beans.property.StringProperty) s).get());
+			});
+
+			posTitleTextfield.get().textProperty().addListener(s -> {
+				offerPosition.setPosTitle(((javafx.beans.property.StringProperty) s).get());
+			});
+
+			costTextfield.get().textProperty().addListener(s -> {
+				String strValue = ((javafx.beans.property.StringProperty) s).get();
+				if (!strValue.isBlank()) {
+					offerPosition.setCost(Double.parseDouble(strValue.replace(",", ".")));
 				}
 			});
 
@@ -116,12 +139,14 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 						if (index < 0) {
 							return;
 						}
-						if (detailsTextarea.get().getText().trim().isBlank()) {
-							detailsTextarea.get().setText(String.valueOf(addItemChoicebox.get().getItems().get(index)));
+						Item value = addItemChoicebox.get().getItems().get(index);
+						if (Optional.ofNullable(detailsTextarea.get().getText()).orElse("").trim().isBlank()) {
+							detailsTextarea.get().setText(String.valueOf(value));
 						} else {
 							detailsTextarea.get()
-									.appendText("\n" + String.valueOf(addItemChoicebox.get().getItems().get(index)));
+									.appendText("\n" + String.valueOf(value));
 						}
+						updateCost(offerPosition, costTextfield, value.getPrice());
 						addItemChoicebox.get().getSelectionModel().clearSelection();
 					});
 
@@ -131,16 +156,18 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 						&& ((costTextfield.get().getText() + text).replaceAll("[^,]+", "")).length() <= 1) {
 					return change;
 				}
-
 				return null;
 			};
 
 			TextFormatter<String> textFormatter = new TextFormatter<>(filter);
 			costTextfield.get().setTextFormatter(textFormatter);
 
-			TextFields.bindAutoCompletion(posTitleTextfield.get(), "abc");
+			TextFields.bindAutoCompletion(posTitleTextfield.get(), posTitleAutocompleteSuggestions);
 
-			posTitleTextfield.get().setText("xxx");
+			deleteItemButton.get().setOnAction(e -> {
+				offerPositions.remove(offerPosition);
+				itemsVbox.getChildren().remove(gp);
+			});
 
 			itemsVbox.getChildren().add(gp);
 
@@ -148,4 +175,16 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			throw new RuntimeException(e);
 		}
 	}
+
+	private void updateCost(OfferPosition offerPosition, AtomicReference<TextField> costTextfield, double addPrice) {
+		if (offerPosition.getCost() + addPrice > 0) {
+			costTextfield.get().textProperty()
+					.set(String.valueOf(((double) Math.round((offerPosition.getCost() + addPrice) * 100)) / 100)
+							.replace(".",
+									","));
+		} else {
+			costTextfield.get().clear();
+		}
+	}
+
 }

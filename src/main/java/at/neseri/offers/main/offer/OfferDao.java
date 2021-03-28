@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import at.neseri.offers.main.MainController;
 import at.neseri.offers.main.customer.Customer;
@@ -40,17 +41,28 @@ public class OfferDao extends ADao<Offer> {
 	@Override
 	public void saveEntry(Offer entry) {
 		super.saveEntry(entry);
-		executeUpdate("DELETE FROM offerPosition WHERE id_offer = ?", Optional.of(ps -> ps.setInt(1, entry.getId())));
+		deleteOfferPositions(entry);
+		AtomicInteger pos = new AtomicInteger(1);
 		entry.getOfferPositions().forEach(op -> {
 			executeUpdate("INSERT INTO offerPosition (id_offer, position, cost, details, title) "
 					+ "VALUES(?,?,?,?,?)", Optional.of(ps -> {
 						ps.setInt(1, entry.getId());
-						ps.setInt(2, op.getPosition());
+						ps.setInt(2, pos.getAndIncrement());
 						ps.setDouble(3, op.getCost());
 						ps.setString(4, op.getDetails());
 						ps.setString(5, op.getPosTitle());
 					}));
 		});
+	}
+
+	private void deleteOfferPositions(Offer entry) {
+		executeUpdate("DELETE FROM offerPosition WHERE id_offer = ?", Optional.of(ps -> ps.setInt(1, entry.getId())));
+	}
+
+	@Override
+	public void deleteEntry(Offer entry) {
+		super.deleteEntry(entry);
+		deleteOfferPositions(entry);
 	}
 
 	@Override
@@ -64,12 +76,11 @@ public class OfferDao extends ADao<Offer> {
 	}
 
 	private List<OfferPosition> getOfferPositions(int offerId) {
-		return mapResultSet("SELECT * FROM offerPosition WHERE id_offer = ?",
+		return mapResultSet("SELECT * FROM offerPosition WHERE id_offer = ? ORDER BY position",
 				rs -> {
 					OfferPosition p = new OfferPosition();
 					p.setCost(rs.getDouble("cost"));
 					p.setDetails(rs.getString("details"));
-					p.setPosition(rs.getInt("position"));
 					p.setPosTitle(rs.getString("title"));
 					return p;
 				}, Optional.of(ps -> ps.setInt(1, offerId)));

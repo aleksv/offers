@@ -2,6 +2,7 @@ package at.neseri.offers.main.offer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import at.neseri.offers.main.Main;
 import at.neseri.offers.main.utils.AListController;
@@ -10,7 +11,9 @@ public class OfferController extends AListController<Offer, OfferDao> {
 
 	@Override
 	public boolean hasFilterMatched(Offer entry, String lowerCaseFilter) {
-		return entry.getNote().toLowerCase().contains(lowerCaseFilter)
+		return Optional.ofNullable(entry.getNote()).orElse("").toLowerCase().contains(lowerCaseFilter)
+				||
+				Optional.ofNullable(entry.getSubject()).orElse("").toLowerCase().contains(lowerCaseFilter)
 				|| entry.getCustomer().toString().toLowerCase().contains(lowerCaseFilter);
 	}
 
@@ -37,11 +40,11 @@ public class OfferController extends AListController<Offer, OfferDao> {
 
 	@Override
 	protected int getWidth() {
-		return 800;
+		return 850;
 	}
 
 	@Override
 	protected int getHeight() {
-		return 550;
+		return 750;
 	}
 }

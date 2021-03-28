@@ -1,22 +1,11 @@
 package at.neseri.offers.main.offer;
 
+import java.util.Optional;
+
 public class OfferPosition {
-	private int position;
 	private String posTitle;
 	private double cost;
-	private String details;
-
-	public OfferPosition() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public int getPosition() {
-		return position;
-	}
-
-	public void setPosition(int position) {
-		this.position = position;
-	}
+	private String details = "";
 
 	public String getPosTitle() {
 		return posTitle;
@@ -39,7 +28,7 @@ public class OfferPosition {
 	}
 
 	public void setDetails(String details) {
-		this.details = details;
+		this.details = Optional.ofNullable(details).orElse("");
 	}
 
 }
