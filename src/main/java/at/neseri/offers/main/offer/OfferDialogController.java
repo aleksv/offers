@@ -3,6 +3,7 @@ package at.neseri.offers.main.offer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
@@ -53,6 +54,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		idTextfield.setText(String.valueOf(entry.getId()));
 		customerChoiceBox.getSelectionModel().select(entry.getCustomer());
 		Optional.ofNullable(entry.getSubject()).ifPresent(s -> subjectTextfield.setText(s));
+
+		entry.getOfferPositions().stream().forEach(op -> addItemPanel(op));
 	}
 
 	@Override
@@ -63,25 +66,32 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 
 	public void onAddItemButton() {
 		System.out.println("+");
-		addItemPanel();
+
+		OfferPosition offerPosition = new OfferPosition();
+		addItemPanel(offerPosition);
+		entry.getOfferPositions().add(offerPosition);
+		offerPosition.setCost(0d);
+		offerPosition.setDetails("xxx");
+		offerPosition.setPosition(4);
+		offerPosition.setPosTitle("xxy");
+
 	}
 
-	private void addItemPanel() {
+	private void addItemPanel(OfferPosition offerPosition) {
 		try {
 			itemsVbox.getChildren().add(new Separator());
 			GridPane gp = FXMLLoader.load(getClass().getResource("Item.fxml"));
 			itemPanes.add(gp);
 
-			Label posLabel = null;
 			AtomicReference<ChoiceBox<Item>> addItemChoicebox = new AtomicReference<>();
 			AtomicReference<TextArea> detailsTextarea = new AtomicReference<>();
 			AtomicReference<TextField> costTextfield = new AtomicReference<>();
 			AtomicReference<TextField> posTitleTextfield = new AtomicReference<>();
 
-			for (Node n : gp.getChildren()) {
+			gp.getChildren().stream().filter(Objects::nonNull).forEach(n -> {
 				switch (Optional.of(n).map(Node::getId).orElse("")) {
 				case "posLabel":
-					posLabel = ((Label) n);
+					Label posLabel = ((Label) n);
 					posLabel.setText("Pos. " + itemPanes.size());
 					break;
 				case "detailsTextarea":
@@ -98,7 +108,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 					posTitleTextfield.set((TextField) n);
 					break;
 				}
-			}
+			});
 
 			addItemChoicebox.get().getSelectionModel().selectedIndexProperty()
 					.addListener((observableValue, number, number2) -> {
@@ -129,6 +139,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			costTextfield.get().setTextFormatter(textFormatter);
 
 			TextFields.bindAutoCompletion(posTitleTextfield.get(), "abc");
+
+			posTitleTextfield.get().setText("xxx");
 
 			itemsVbox.getChildren().add(gp);
 

@@ -31,7 +31,7 @@ public abstract class ADao<T extends IIdentity> {
 			T entry = Optional.ofNullable(existingMap.get(rs.getInt("id"))).orElse(getInstance());
 			getSelectDbMapper().accept(rs, entry);
 			entries.add(entry);
-		});
+		}, Optional.empty());
 		return entries;
 	}
 
@@ -62,7 +62,7 @@ public abstract class ADao<T extends IIdentity> {
 					}));
 			iterateResultSet("SELECT last_insert_rowid()", rs -> {
 				entry.setId(rs.getInt(1));
-			});
+			}, Optional.empty());
 		}
 
 	}
@@ -77,10 +77,15 @@ public abstract class ADao<T extends IIdentity> {
 		return database;
 	}
 
-	protected void iterateResultSet(String sql, DaoConsumer<ResultSet> cons) {
+	protected void iterateResultSet(String sql, DaoConsumer<ResultSet> cons,
+			Optional<DaoConsumer<PreparedStatement>> ps) {
 		System.out.println(sql);
 		try {
-			ResultSet resultSet = database.getConnection().prepareStatement(sql).executeQuery();
+			PreparedStatement prepareStatement = database.getConnection().prepareStatement(sql);
+			if (ps.isPresent()) {
+				ps.get().accept(prepareStatement);
+			}
+			ResultSet resultSet = prepareStatement.executeQuery();
 			while (resultSet.next()) {
 				cons.accept(resultSet);
 			}
@@ -88,6 +93,15 @@ public abstract class ADao<T extends IIdentity> {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	protected <T2> List<T2> mapResultSet(String sql, DaoFunction<ResultSet, T2> func,
+			Optional<DaoConsumer<PreparedStatement>> ps) {
+		List<T2> result = new ArrayList<>();
+		iterateResultSet(sql, rs -> {
+			result.add(func.apply(rs));
+		}, ps);
+		return result;
 	}
 
 	protected void executeUpdate(String sql, Optional<DaoConsumer<PreparedStatement>> consumer) {

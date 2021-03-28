@@ -1,7 +1,6 @@
 package at.neseri.offers.main.offer;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public class Offer implements IIdentity {
 	private LocalDate created = LocalDate.now();
 	private Reference<Integer, Customer> customer;
 	private int customerId;
-	private final List<OfferPosition> offerPositions = new ArrayList<>();
+	private Reference<Integer, List<OfferPosition>> offerPositions;
 
 	@Override
 	public int getId() {
@@ -93,48 +92,13 @@ public class Offer implements IIdentity {
 		this.subject = subject;
 		return this;
 	}
-	
-	public List<OfferPosition> getOfferPositions() {
-		return offerPositions;
+
+	public Offer withOfferPositionsReference(Reference<Integer, List<OfferPosition>> offerPositions) {
+		this.offerPositions = offerPositions;
+		return this;
 	}
 
-	public class OfferPosition {
-		private int position;
-		private String posTitle;
-		private double cost;
-		private String details;
-
-		public int getPosition() {
-			return position;
-		}
-
-		public void setPosition(int position) {
-			this.position = position;
-		}
-
-		public String getPosTitle() {
-			return posTitle;
-		}
-
-		public void setPosTitle(String posTitle) {
-			this.posTitle = posTitle;
-		}
-
-		public double getCost() {
-			return cost;
-		}
-
-		public void setCost(double cost) {
-			this.cost = cost;
-		}
-
-		public String getDetails() {
-			return details;
-		}
-
-		public void setDetails(String details) {
-			this.details = details;
-		}
-
+	public List<OfferPosition> getOfferPositions() {
+		return offerPositions.get(getId());
 	}
 }

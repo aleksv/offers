@@ -19,6 +19,7 @@
 		<RowConstraints />
 		<RowConstraints />
 		<RowConstraints fillHeight="false" valignment="BOTTOM" vgrow="ALWAYS" />
+      <RowConstraints fillHeight="false" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
 	</rowConstraints>
 	<children>
 		<TextField fx:id="idTextfield" alignment="CENTER_RIGHT" editable="false" maxHeight="25.0" maxWidth="50.0" prefHeight="25.0" prefWidth="50.0" promptText="ID" GridPane.columnIndex="1" />
@@ -52,5 +53,11 @@
          </content>
       </ScrollPane>
       <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#onAddItemButton" text="+" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+      <HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.rowIndex="7">
+         <children>
+            <Button fx:id="saveButton1" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+            <Button fx:id="cancelButton1" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+         </children>
+      </HBox>
 	</children>
 </GridPane>
