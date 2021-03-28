@@ -11,9 +11,7 @@ public class OfferController extends AListController<Offer, OfferDao> {
 
 	@Override
 	public boolean hasFilterMatched(Offer entry, String lowerCaseFilter) {
-		return Optional.ofNullable(entry.getNote()).orElse("").toLowerCase().contains(lowerCaseFilter)
-				||
-				Optional.ofNullable(entry.getSubject()).orElse("").toLowerCase().contains(lowerCaseFilter)
+		return Optional.ofNullable(entry.getSubject()).orElse("").toLowerCase().contains(lowerCaseFilter)
 				|| entry.getCustomer().toString().toLowerCase().contains(lowerCaseFilter);
 	}
 
@@ -29,7 +27,6 @@ public class OfferController extends AListController<Offer, OfferDao> {
 		m.put("Erstellt", "created");
 		m.put("Betreff", "subject");
 		m.put("Kunde", "customer");
-		m.put("Bemerkung", "note");
 		return m;
 	}
 

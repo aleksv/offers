@@ -19,7 +19,7 @@ public class UiUtils {
 	 * @param isBlocking
 	 * @return controller
 	 */
-	public static <T extends AStageController> Stage getStage(URL resource, Consumer<T> controllerConsumer) {
+	public static <T extends AStageController<?, ?>> Stage getStage(URL resource, Consumer<T> controllerConsumer) {
 		try {
 			FXMLLoader loader = new FXMLLoader(resource);
 			Parent root;

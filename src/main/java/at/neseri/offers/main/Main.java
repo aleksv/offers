@@ -17,11 +17,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-	private final static Database DATABASE;
-	static {
-		DATABASE = new Database();
-		DATABASE.setup();
-	}
+	private final static Database DATABASE = new Database();
 
 	private MainController mainController;
 
@@ -42,6 +38,7 @@ public class Main extends Application {
 
 		mainController = fxmlLoader.getController();
 
+		System.out.println(System.getProperty("user.home"));
 	}
 
 	public static void main(String[] args) {
@@ -54,6 +51,12 @@ public class Main extends Application {
 	}
 
 	public static Database getDatabase() {
+		DATABASE.setup();
 		return DATABASE;
 	}
+
+	public static String getDbPath() {
+		return System.getProperty("user.home") + "/" + "at.neseri.chinook.db";
+	}
+
 }
