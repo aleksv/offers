@@ -63,7 +63,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		updateEntryTable();
 	}
 
-	protected void initContextMenu() {
+	protected ContextMenu initContextMenu() {
 		ContextMenu menu = new ContextMenu();
 
 		menu.getItems().add(new MenuItem("Bearbeiten"));
@@ -89,6 +89,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		});
 
 		tableView.setContextMenu(menu);
+		return menu;
 	}
 
 	protected void updateEntryTable() {

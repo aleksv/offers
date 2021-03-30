@@ -39,6 +39,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	@FXML
 	private TextField subjectTextfield;
 	@FXML
+	private TextArea noteTextarea;
+	@FXML
 	private VBox itemsVbox;
 	@FXML
 	private Button addItemButton;
@@ -59,8 +61,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 
 		idTextfield.setText(String.valueOf(entry.getId()));
 		customerChoiceBox.getSelectionModel().select(entry.getCustomer());
-		Optional.ofNullable(entry.getSubject()).ifPresent(s -> subjectTextfield.setText(s));
-
+		Optional.ofNullable(entry.getSubject()).ifPresent(subjectTextfield::setText);
+		Optional.ofNullable(entry.getNote()).ifPresent(noteTextarea::setText);
 		entry.getOfferPositions().stream().forEach(op -> addItemPanel(op));
 
 		offerPositions.addAll(entry.getOfferPositions());
@@ -70,6 +72,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	protected void save() {
 		entry.setCustomerId(customerChoiceBox.getSelectionModel().getSelectedItem().getId());
 		entry.setSubject(subjectTextfield.getText());
+		entry.setNote(noteTextarea.getText());
 		entry.getOfferPositions().clear();
 		entry.getOfferPositions().addAll(offerPositions);
 	}

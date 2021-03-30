@@ -20,6 +20,7 @@ public class Main extends Application {
 	private final static Database DATABASE = new Database();
 
 	private MainController mainController;
+	private static String dbPath = System.getProperty("user.home") + "/" + "at.neseri.chinook.db";
 
 	@Override
 	public void start(Stage stage) throws IOException {
@@ -38,10 +39,12 @@ public class Main extends Application {
 
 		mainController = fxmlLoader.getController();
 
-		System.out.println(System.getProperty("user.home"));
 	}
 
 	public static void main(String[] args) {
+		if (args.length >= 1) {
+			dbPath = args[0];
+		}
 		launch(args);
 	}
 
@@ -56,7 +59,7 @@ public class Main extends Application {
 	}
 
 	public static String getDbPath() {
-		return System.getProperty("user.home") + "/" + "at.neseri.chinook.db";
+		return dbPath;
 	}
 
 }

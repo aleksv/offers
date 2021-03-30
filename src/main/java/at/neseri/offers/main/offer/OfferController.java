@@ -1,11 +1,16 @@
 package at.neseri.offers.main.offer;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import at.neseri.offers.main.Main;
+import at.neseri.offers.main.pdf.PdfCreator;
 import at.neseri.offers.main.utils.AListController;
+import javafx.event.ActionEvent;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
 public class OfferController extends AListController<Offer, OfferDao> {
 
@@ -43,5 +48,22 @@ public class OfferController extends AListController<Offer, OfferDao> {
 	@Override
 	protected int getHeight() {
 		return 750;
+	}
+
+	@Override
+	protected ContextMenu initContextMenu() {
+		ContextMenu menu = super.initContextMenu();
+		menu.getItems().add(new MenuItem("Druckvorschau"));
+		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
+			Offer entry = tableView.getSelectionModel().getSelectedItem();
+			PdfCreator c = new PdfCreator();
+			try {
+				c.doIt(entry);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		return menu;
 	}
 }
