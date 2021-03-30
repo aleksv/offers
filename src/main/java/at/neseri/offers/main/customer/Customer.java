@@ -6,12 +6,16 @@ public class Customer implements IIdentity {
 	private int id;
 	private String vorname;
 	private String nachname;
+	private String strasse;
+	private String plz;
+	private String ort;
 
 	@Override
 	public int getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -51,4 +55,44 @@ public class Customer implements IIdentity {
 	public String toString() {
 		return nachname + " " + vorname + " (" + id + ")";
 	}
+
+	public String getStrasse() {
+		return strasse;
+	}
+
+	public void setStrasse(String strasse) {
+		this.strasse = strasse;
+	}
+
+	public Customer withStrasse(String strasse) {
+		this.strasse = strasse;
+		return this;
+	}
+
+	public String getPlz() {
+		return plz;
+	}
+
+	public void setPlz(String plz) {
+		this.plz = plz;
+	}
+
+	public Customer withPlz(String plz) {
+		this.plz = plz;
+		return this;
+	}
+
+	public String getOrt() {
+		return ort;
+	}
+
+	public void setOrt(String ort) {
+		this.ort = ort;
+	}
+
+	public Customer withOrt(String ort) {
+		this.ort = ort;
+		return this;
+	}
+
 }

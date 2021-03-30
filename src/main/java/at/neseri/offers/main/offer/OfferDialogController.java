@@ -66,6 +66,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		entry.getOfferPositions().stream().forEach(op -> addItemPanel(op));
 
 		offerPositions.addAll(entry.getOfferPositions());
+
 	}
 
 	@Override

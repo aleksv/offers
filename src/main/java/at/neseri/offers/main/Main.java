@@ -29,7 +29,7 @@ public class Main extends Application {
 		Scene scene = new Scene(root);
 		setUserAgentStylesheet(STYLESHEET_MODENA);
 		stage.setScene(scene);
-		stage.setTitle("FileOps");
+		stage.setTitle("Angebots-Progrämmle");
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 		stage.setWidth(1000);
 		stage.setMinWidth(600);

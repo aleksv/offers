@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -35,20 +36,20 @@ public class PdfCreator {
 			cs.moveTo(0, 0);
 			cs.setLeading(14);
 			cs.beginText();
-			cs.newLineAtOffset(50, page.getCropBox().getHeight() - 150);
+			cs.newLineAtOffset(50, page.getCropBox().getHeight() - 100);
 			cs.setFont(font, 11);
 			cs.showText(entry.getCustomer().getVorname() + " " + entry.getCustomer().getNachname());
 			cs.newLine();
-			cs.showText("Kapellenweg 28");
+			cs.showText(entry.getCustomer().getStrasse());
 			cs.newLine();
-			cs.showText("6972 Fuﬂach");
+			cs.showText(entry.getCustomer().getPlz() + " " + entry.getCustomer().getOrt());
 			cs.newLine();
 			cs.newLine();
 			cs.showText(entry.getSubject());
 			cs.newLine();
 			cs.newLine();
 
-			String date = "Hohenems, am " + entry.getCreated();
+			String date = "Hohenems, am " + entry.getCreated().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
 			cs.newLineAtOffset(page.getCropBox().getWidth() - 220, 14);
 			cs.showText(date);

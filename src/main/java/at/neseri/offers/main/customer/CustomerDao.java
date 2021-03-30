@@ -17,7 +17,8 @@ public class CustomerDao extends ADao<Customer> {
 	protected DaoBiConsumer<ResultSet, Customer> getSelectDbMapper() {
 		return (rs, c) -> {
 			c.withId(rs.getInt("id")).withVorname(rs.getString("vorname"))
-					.withNachname(rs.getString("nachname"));
+					.withNachname(rs.getString("nachname")).withStrasse(rs.getString("strasse"))
+					.withPlz(rs.getString("plz")).withOrt(rs.getString("ort"));
 		};
 	}
 
@@ -26,6 +27,9 @@ public class CustomerDao extends ADao<Customer> {
 		Map<String, DaoFunction<Customer, Object>> map = new HashMap<String, ADao.DaoFunction<Customer, Object>>();
 		map.put("vorname", c -> c.getVorname());
 		map.put("nachname", c -> c.getNachname());
+		map.put("strasse", c -> c.getStrasse());
+		map.put("plz", c -> c.getPlz());
+		map.put("ort", c -> c.getOrt());
 		return map;
 	}
 
