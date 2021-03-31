@@ -1,12 +1,14 @@
 package at.neseri.offers.main.offer;
 
-import java.io.IOException;
+import java.awt.Desktop;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import at.neseri.offers.main.Main;
-import at.neseri.offers.main.pdf.PdfCreator;
+import at.neseri.offers.main.pdf.OfferPdfCreator;
 import at.neseri.offers.main.utils.AListController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ContextMenu;
@@ -56,12 +58,14 @@ public class OfferController extends AListController<Offer, OfferDao> {
 		menu.getItems().add(new MenuItem("Druckvorschau"));
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
 			Offer entry = tableView.getSelectionModel().getSelectedItem();
-			PdfCreator c = new PdfCreator();
-			try {
-				c.doIt(entry);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			try (OfferPdfCreator pdfCreator = new OfferPdfCreator(entry);) {
+				File file = Files.createTempFile("vorschau", ".pdf").toFile();
+				file.deleteOnExit();
+				pdfCreator.save(file.getAbsolutePath());
+				Desktop.getDesktop().open(file);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
 			}
 		});
 		return menu;
