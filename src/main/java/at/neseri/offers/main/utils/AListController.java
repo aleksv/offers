@@ -61,6 +61,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		});
 
 		updateEntryTable();
+		tableView.getSortOrder().add(tableView.getColumns().get(0));
 	}
 
 	protected ContextMenu initContextMenu() {

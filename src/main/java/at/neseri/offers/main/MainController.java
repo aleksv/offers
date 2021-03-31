@@ -16,7 +16,6 @@ public class MainController {
 	private MenuBar menuBar;
 	@FXML
 	private MenuItem closeMenuItem;
-
 	@FXML
 	private CustomerController customerController;
 	@FXML

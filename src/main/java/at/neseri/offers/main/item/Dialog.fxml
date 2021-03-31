@@ -19,7 +19,7 @@
 		<RowConstraints fillHeight="false" valignment="BOTTOM" vgrow="ALWAYS" />
 	</rowConstraints>
 	<children>
-		<TextField fx:id="idTextfield" editable="false" promptText="ID" />
+		<TextField fx:id="idTextfield" disable="true" editable="false" promptText="ID" />
 		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.rowIndex="6">
 			<children>
 				<Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />

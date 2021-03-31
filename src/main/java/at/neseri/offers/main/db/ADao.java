@@ -12,8 +12,11 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+
 public abstract class ADao<T extends IIdentity> {
 
+	private final static org.apache.logging.log4j.Logger LOG = LogManager.getLogger(ADao.class);
 	private Database database;
 	private String tablename;
 
@@ -79,7 +82,7 @@ public abstract class ADao<T extends IIdentity> {
 
 	protected void iterateResultSet(String sql, DaoConsumer<ResultSet> cons,
 			Optional<DaoConsumer<PreparedStatement>> ps) {
-		System.out.println(sql);
+		LOG.info(sql);
 		try {
 			PreparedStatement prepareStatement = database.getConnection().prepareStatement(sql);
 			if (ps.isPresent()) {
@@ -106,7 +109,7 @@ public abstract class ADao<T extends IIdentity> {
 
 	protected void executeUpdate(String sql, Optional<DaoConsumer<PreparedStatement>> consumer) {
 		try {
-			System.out.println(sql);
+			LOG.info(sql);
 			PreparedStatement prepareStatement = database.getConnection().prepareStatement(sql);
 			consumer.ifPresent(c -> {
 				try {

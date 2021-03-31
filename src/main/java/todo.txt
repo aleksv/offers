@@ -1,0 +1,5 @@
+- tabulator-sprünge
+- pflichtfelder
+- positionen: enum, preis loeschen
+- min-grösse der fenster
+- tableviewer sortierung umkehren (ID)

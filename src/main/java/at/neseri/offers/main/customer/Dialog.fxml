@@ -19,7 +19,7 @@
 		<RowConstraints fillHeight="false" valignment="BOTTOM" vgrow="ALWAYS" />
 	</rowConstraints>
 	<children>
-		<TextField fx:id="customerIdTextfield" editable="false" promptText="ID" />
+		<TextField fx:id="customerIdTextfield" disable="true" editable="false" promptText="ID" />
 		<TextField fx:id="nachnameTextfield" promptText="Nachname" GridPane.rowIndex="1" />
 		<TextField fx:id="vornameTextfield" promptText="Vorname" GridPane.rowIndex="2" />
 

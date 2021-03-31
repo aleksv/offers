@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<RollingFile name="fileLog" fileName="log/main.log"
+			filePattern="log/application-aop-%d{yyyy-MM-dd}-%i.log">
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1000KB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console" level="debug" />
+			<AppenderRef ref="fileLog" level="warn" />
+		</Root>
+	</Loggers>
+</Configuration>

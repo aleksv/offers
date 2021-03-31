@@ -2,6 +2,8 @@ package at.neseri.offers.main;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+
 import at.neseri.offers.main.db.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,8 @@ import javafx.stage.Stage;
  *
  */
 public class Main extends Application {
+
+	private final static org.apache.logging.log4j.Logger LOG = LogManager.getLogger(Main.class);
 
 	private final static Database DATABASE = new Database();
 
@@ -42,10 +46,16 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		if (args.length >= 1) {
-			dbPath = args[0];
+		try {
+			if (args.length >= 1) {
+				dbPath = args[0];
+			}
+			launch(args);
+			System.out.println(1 / 0);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
 		}
-		launch(args);
+
 	}
 
 	@Override

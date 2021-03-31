@@ -1,9 +1,11 @@
 package at.neseri.offers.main.utils;
 
+import at.neseri.offers.main.Main;
 import at.neseri.offers.main.db.ADao;
 import at.neseri.offers.main.db.IIdentity;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public abstract class AStageController<T extends IIdentity, TT extends ADao<T>> {
@@ -22,6 +24,7 @@ public abstract class AStageController<T extends IIdentity, TT extends ADao<T>> 
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
+		stage.getIcons().add(new Image(Main.class.getResourceAsStream("icon.png")));
 	}
 
 	public void setListController(AListController<T, TT> listController) {

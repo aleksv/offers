@@ -15,12 +15,8 @@ public class Database implements AutoCloseable {
 	private Connection createConnection() {
 		Connection conn = null;
 		try {
-
-			// db parameters
 			String url = "jdbc:sqlite:" + Main.getDbPath();
-			// create a connection to the database
 			conn = DriverManager.getConnection(url);
-			System.out.println("Connection to SQLite has been established.");
 			return conn;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
