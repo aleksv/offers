@@ -3,3 +3,4 @@
 - positionen: enum, preis loeschen
 - min-grösse der fenster
 - tableviewer sortierung umkehren (ID)
+- datum in listen richtig formatieren
