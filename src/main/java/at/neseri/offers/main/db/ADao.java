@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 
 public abstract class ADao<T extends IIdentity> {
 
-	private final static org.apache.logging.log4j.Logger LOG = LogManager.getLogger(ADao.class);
+	protected final static org.apache.logging.log4j.Logger LOG = LogManager.getLogger(ADao.class);
 	private Database database;
 	private String tablename;
 
@@ -50,6 +50,7 @@ public abstract class ADao<T extends IIdentity> {
 					+ " WHERE id = ?", Optional.of(ps -> {
 						for (DaoFunction<T, Object> fct : mappers.values()) {
 							ps.setObject(i.incrementAndGet(), fct.apply(entry));
+							LOG.info("Param: " + fct.apply(entry));
 						}
 						ps.setObject(i.incrementAndGet(), entry.getId());
 					}));
@@ -61,6 +62,7 @@ public abstract class ADao<T extends IIdentity> {
 						AtomicInteger i = new AtomicInteger(0);
 						for (DaoFunction<T, Object> fct : mappers.values()) {
 							ps.setObject(i.incrementAndGet(), fct.apply(entry));
+							LOG.info("Param: " + fct.apply(entry));
 						}
 					}));
 			iterateResultSet("SELECT last_insert_rowid()", rs -> {
@@ -73,6 +75,7 @@ public abstract class ADao<T extends IIdentity> {
 	public void deleteEntry(T entry) {
 		executeUpdate("DELETE FROM " + tablename + " WHERE id = ?", Optional.of(ps -> {
 			ps.setInt(1, entry.getId());
+			LOG.info("Param: " + entry.getId());
 		}));
 	}
 
