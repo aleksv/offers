@@ -8,22 +8,22 @@ import at.neseri.offers.main.pdf.DocumentContentProvider;
 
 public abstract class AbstractContentStreamElement extends AbstractElement {
 
-	private PDOptionalContentGroup currentLayer;
+	private PDOptionalContentGroup currLayer;
 
 	public AbstractContentStreamElement(DocumentContentProvider contentProvider) {
 		super(contentProvider);
 	}
 
 	public void setCurrentLayer(String layerName) {
-		this.currentLayer = layerName == null ? null : getLayer(layerName);
+		this.currLayer = layerName == null ? null : getLayer(layerName);
 	}
 
 	public void resetCurrentLayer() {
-		this.currentLayer = null;
+		this.currLayer = null;
 	}
 
 	protected PDOptionalContentGroup getCurrentLayer() {
-		return currentLayer;
+		return currLayer;
 	}
 
 	private PDOptionalContentGroup getLayer(String layerName) {

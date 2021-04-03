@@ -45,8 +45,6 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 
 	private TextElement textElement;
 	private LineElement lineElement;
-	private String ueberschrift;
-	private String subUeberschrift;
 	private RectangleElement rectangleElement;
 	private PDImageXObject logo;
 	private Offer offer;
@@ -54,8 +52,6 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 	public OfferPdfCreator(Offer offer) {
 		super();
 		this.offer = offer;
-		this.ueberschrift = "teest";
-		this.subUeberschrift = "teeexst";
 		rectangleElement = new RectangleElement(this);
 		textElement = new TextElement(this);
 		textElement.setFont(FONT);
@@ -90,19 +86,18 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		addNewPageToDocument();
 		Customer customer = offer.getCustomer();
 
-		float currY = getPageHeight() - 100;
+		float currY = getPageHeight() - 80;
 		textElement.write(MARGIN, currY, customer.getVorname() + " " + customer.getNachname());
 		currY -= FONT_SIZE_NORMAL * 1.4;
 		textElement.write(MARGIN, currY, customer.getStrasse());
 		currY -= FONT_SIZE_NORMAL * 1.4;
 		textElement.write(MARGIN, currY, customer.getPlz() + " " + customer.getOrt());
 
-		currY -= 30;
+		currY -= 70;
 		textElement.setAlignment(Align.R);
 		textElement.write(getPageWidth() - MARGIN, currY,
 				"Hohenems am " + offer.getCreated().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 		textElement.setAlignment(Align.L);
-		currY -= 40;
 
 		textElement.setFontSize(FONT_SIZE_BIG);
 		textElement.write(MARGIN, currY, "Angebot");
@@ -116,10 +111,10 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		lineElement.write(MARGIN, currY, getPageWidth() - MARGIN, currY);
 		currY -= FONT_SIZE_NORMAL * 1.6;
 		textElement.write(MARGIN, currY, "Material / Leistungsumfang");
-		textElement.write(MARGIN + 0.1f, currY + 0.1f, "Material / Leistungsumfang");
+		textElement.write(MARGIN + 0.15f, currY + 0.15f, "Material / Leistungsumfang");
 		textElement.setAlignment(Align.R);
 		textElement.write(getPageWidth() - MARGIN, currY, "Gesamtpreis");
-		textElement.write(getPageWidth() - MARGIN + 0.1f, currY + 0.1f, "Gesamtpreis");
+		textElement.write(getPageWidth() - MARGIN + 0.15f, currY + 0.15f, "Gesamtpreis");
 		textElement.setAlignment(Align.L);
 		currY -= FONT_SIZE_NORMAL;
 		lineElement.write(MARGIN, currY, getPageWidth() - MARGIN, currY);
@@ -128,6 +123,14 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 
 		int pos = 1;
 		for (OfferPosition op : offer.getOfferPositions()) {
+
+			float detailsHeight = textElement.calcMultilineHeight(op.getDetails(), getPageWidth() - 5 * MARGIN);
+
+			if (currY - MARGIN * 1.5 - ((FONT_SIZE_NORMAL * 1.4) * 2 + detailsHeight) < 0) {
+				addNewPageToDocument();
+				currY = getPageHeight() - MARGIN * 3.5f;
+			}
+
 			textElement.write(MARGIN, currY, "Pos. " + (pos) + ": " + op.getPosTitle());
 			textElement.write(MARGIN + 0.15f, currY + 0.15f, "Pos. " + (pos++) + ": " + op.getPosTitle());
 
@@ -140,15 +143,45 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			textElement.setAlignment(Align.L);
 
 			currY -= FONT_SIZE_NORMAL * 1.4;
-
-			textElement.writeMultiline(MARGIN + 10, currY, getPageWidth() - 2 * MARGIN, op.getDetails());
-			currY -= (FONT_SIZE_NORMAL * 1.4) * op.getDetails().split("\n").length;
-
-			currY -= FONT_SIZE_NORMAL * 1.4;
+			textElement.writeMultiline(MARGIN + 10, currY, getPageWidth() - 5 * MARGIN, op.getDetails());
+			currY -= detailsHeight;
 			currY -= FONT_SIZE_NORMAL * 1.4;
 		}
+		if (offer.getNote() != null) {
+			float height = textElement.calcMultilineHeight(offer.getNote(), getPageWidth() - 2 * MARGIN);
+			if (currY - MARGIN * 1.5 - ((FONT_SIZE_NORMAL * 1.4) * 2 + height) < 0) {
+				addNewPageToDocument();
+				currY = getPageHeight() - MARGIN * 3.5f;
+			}
+			textElement.writeMultiline(MARGIN, currY, getPageWidth() - 2 * MARGIN, offer.getNote());
+			currY -= height;
+		}
 
-		textElement.writeMultiline(MARGIN, currY, getPageWidth() - 2 * MARGIN, offer.getNote());
+		if (currY - MARGIN - 220 < 0) {
+			addNewPageToDocument();
+		}
+		lineElement.write(MARGIN, 220, getPageWidth() - MARGIN, 220);
+		textElement.setAlignment(Align.R);
+		textElement.write(getPageWidth() - MARGIN, 210, "Nettosumme EUR            7600");
+		lineElement.write(getPageWidth() - MARGIN - 76, 208, getPageWidth() - MARGIN, 208);
+		textElement.write(getPageWidth() - MARGIN, 196, "20 % MwSt. EUR            1555");
+		lineElement.write(getPageWidth() - MARGIN - 76, 194, getPageWidth() - MARGIN, 194);
+		textElement.write(getPageWidth() - MARGIN, 182, "Bruttosumme EUR            1243");
+		textElement.write(getPageWidth() - MARGIN - 0.2f, 182.2f, "Bruttosumme EUR            1243");
+		lineElement.write(getPageWidth() - MARGIN - 76, 180, getPageWidth() - MARGIN, 180);
+		lineElement.write(getPageWidth() - MARGIN - 76, 178, getPageWidth() - MARGIN, 178);
+
+		textElement.setAlignment(Align.L);
+		textElement.writeMultiline(MARGIN, 155, 600, ""
+				+ "Zahlungskonditionen:\n"
+				+ "\n"
+				+ "Wir hoffen, Ihnen ein entsprechendes Angebot gemacht zu haben\n"
+				+ "und erwarten mit großem Interesse Ihren weiteren Bescheid.\n"
+				+ "\n"
+				+ "Mit freundlichen Grüßen\n"
+				+ "Patrick Maier");
+		textElement.setAlignment(Align.R);
+		textElement.write(getPageWidth() - MARGIN, 155, "10 Tage 2% Skonto, 30 Tage netto. ");
 
 	}
 
@@ -169,12 +202,30 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 
 			SimpleContentProvider simpleContentProvider = new SimpleContentProvider(contentStream, page, getDocument());
 			if (i == 1) {
-				drawFirstPageHeader(simpleContentProvider);
+				drawHeaderFirst(simpleContentProvider);
+			} else {
+				drawHeaderRest(simpleContentProvider);
 			}
 			drawFooter(simpleContentProvider, i, totalPages);
 			contentStream.close();
 			i++;
 		}
+	}
+
+	private void drawHeaderRest(SimpleContentProvider simpleContentProvider) throws IOException {
+		drawLogo(simpleContentProvider, new Dimension(150, 50));
+		LineElement lineElement = new LineElement(simpleContentProvider);
+		lineElement.setLineWidth(1f);
+		lineElement.setColor(new Color(246, 0, 30));
+		lineElement.write(MARGIN, getPageHeight() - 65.4f, getPageWidth() - MARGIN, getPageHeight() - 65.4f);
+	}
+
+	private void drawHeaderFirst(SimpleContentProvider simpleContentProvider) throws IOException {
+		drawLogo(simpleContentProvider, new Dimension(300, 150));
+		LineElement lineElement = new LineElement(simpleContentProvider);
+		lineElement.setLineWidth(3f);
+		lineElement.setColor(new Color(246, 0, 30));
+		lineElement.write(MARGIN, getPageHeight() - 124, getPageWidth() - MARGIN, getPageHeight() - 124);
 	}
 
 	private void drawFooter(DocumentContentProvider contentProvider, int currPage, int totalPages)
@@ -183,53 +234,20 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		LineElement lineElement = new LineElement(contentProvider);
 		textElement.setFontSize(FONT_SIZE_SMALL);
 		textElement.setAlignment(Align.R);
-		textElement.write(getPageWidth() - MARGIN, 30,
+		textElement.write(getPageWidth() - MARGIN, 32,
 				String.format("%s / %s", currPage, totalPages));
 
 		textElement.setAlignment(Align.L);
-		textElement.write(MARGIN, 30, "Hypo - Bank Hohenems");
+		textElement.write(MARGIN, 32, "Dienstgebernummer: 301439432");
+		textElement.write(MARGIN, 23, "ATU: 56861079");
+		textElement.write(MARGIN, 14, "Hypo - Bank Hohenems");
 
 		textElement.setAlignment(Align.C);
-		textElement.write(getPageWidth() / 2, 30, "IBAN: AT 9258 0001 9144 7850 05");
+		textElement.write(getPageWidth() / 2, 32, "IBAN: AT925800019144785005");
+		textElement.write(getPageWidth() / 2, 23, "BIC: HYPVAT2B");
 
 		lineElement.setLineWidth(0.1f);
 		lineElement.write(MARGIN - 1, 40, getPageWidth() - MARGIN, 40);
-	}
-
-	private void drawFirstPageHeader(DocumentContentProvider contentProvider) throws IOException {
-		TextElement textElement = new TextElement(contentProvider);
-		RectangleElement rectangleElement = new RectangleElement(contentProvider);
-		LineElement lineElement = new LineElement(contentProvider);
-		float height = getPageHeight() - MARGIN;
-		float width = logo == null ? getPageWidth() - (MARGIN + MARGIN) : 380;
-		textElement.setFontSize(FONT_SIZE_BIG);
-		textElement.setFont(FONT_BOLD);
-		final float heightHauptueberschrift = 25;
-		final float heightSubUeberschrift = 12;
-		final float heightSeparator = 2f;
-
-		height -= heightHauptueberschrift;
-
-		rectangleElement.setLineWidth(0f);
-		rectangleElement.setFill(true);
-		rectangleElement.setFillColor(COLOR_LIGHT_GRAY);
-		rectangleElement.setStrokeColor(COLOR_LIGHT_GRAY);
-		rectangleElement.write(MARGIN, height, width, heightHauptueberschrift);
-		textElement.write(MARGIN + 2, height + heightHauptueberschrift - FONT_SIZE_BIG, ueberschrift);
-
-		height += heightSeparator;
-		lineElement.setLineWidth(heightSeparator);
-		lineElement.write(MARGIN, height, MARGIN + width, height);
-
-		height -= heightSubUeberschrift;
-
-		rectangleElement.setFillColor(COLOR_DARK_GRAY);
-		rectangleElement.setStrokeColor(COLOR_DARK_GRAY);
-		rectangleElement.write(MARGIN, height, width, heightSubUeberschrift);
-		textElement.setFontSize(FONT_SIZE_NORMAL);
-		textElement.write(MARGIN + 2, height + heightSubUeberschrift - FONT_SIZE_NORMAL, subUeberschrift);
-
-		drawLogo(contentProvider);
 	}
 
 	public void setLogo(byte[] logo) throws IOException {
@@ -239,14 +257,13 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		this.logo = LosslessFactory.createFromImage(getDocument(), image);
 	}
 
-	private void drawLogo(DocumentContentProvider contentProvider) throws IOException {
+	private void drawLogo(DocumentContentProvider contentProvider, Dimension dim) throws IOException {
 		if (logo == null) {
 			return;
 		}
-		Dimension scaledDim = getScaledDimension(new Dimension(logo.getWidth(), logo.getHeight()), new Dimension(300,
-				150));
+		Dimension scaledDim = getScaledDimension(new Dimension(logo.getWidth(), logo.getHeight()), dim);
 		contentProvider.getStream().drawImage(logo,
-				getPageWidth() - 300 / 2 - scaledDim.width / 2 - MARGIN,
+				getPageWidth() - scaledDim.width - MARGIN,
 				getPageHeight() - scaledDim.height - MARGIN,
 				scaledDim.width,
 				scaledDim.height);

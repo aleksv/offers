@@ -4,3 +4,5 @@
 - min-grösse der fenster
 - tableviewer sortierung umkehren (ID)
 - datum in listen richtig formatieren
+- buttons in dialogen mit abstand
+- properties file mit grunddaten

@@ -61,8 +61,8 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.rowIndex="8">
          <children>
-            <Button fx:id="saveButton1" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
-            <Button fx:id="cancelButton1" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+            <Button fx:id="saveButton1" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+            <Button fx:id="cancelButton1" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
          </children>
       </HBox>
       <Label text="Bemerkung" GridPane.rowIndex="3">

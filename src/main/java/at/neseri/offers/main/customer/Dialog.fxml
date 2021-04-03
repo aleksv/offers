@@ -28,8 +28,8 @@
 		<TextField fx:id="ortTextfield" promptText="Ort" GridPane.rowIndex="5" />
 		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.rowIndex="6">
 			<children>
-				<Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
-				<Button fx:id="cancelButton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+				<Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+				<Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
 		</HBox>
 	</children>

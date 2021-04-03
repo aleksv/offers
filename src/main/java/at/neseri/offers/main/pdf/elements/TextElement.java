@@ -64,7 +64,7 @@ public class TextElement extends AbstractContentStreamElement {
 
 	public void writeEllipsis(float x, float y, float width, String text) throws IOException {
 		text = replaceNonVisibleCharactersWithSpace(text);
-		while (fontSize * font.getStringWidth(text) / 1000 > width) {
+		while (getStringWidth(text) > width) {
 			text = text.substring(0, text.length() - 4) + "...";
 		}
 
@@ -95,30 +95,38 @@ public class TextElement extends AbstractContentStreamElement {
 		int lastSpace = -1;
 
 		for (String textnl : text.split("\n")) {
-			while (textnl.length() > 0) {
-				int spaceIndex = textnl.indexOf(' ', lastSpace + 1);
-				if (spaceIndex < 0) {
-					spaceIndex = textnl.length();
-				}
-				String subString = textnl.substring(0, spaceIndex);
-				float size = fontSize * font.getStringWidth(subString) / 1000;
-				if (size > width) {
-					if (lastSpace < 0) {
+			if (textnl.length() == 0) {
+				lines.add("");
+			} else {
+				while (textnl.length() > 0) {
+					int spaceIndex = textnl.indexOf(' ', lastSpace + 1);
+					if (spaceIndex < 0) {
+						spaceIndex = textnl.length();
+					}
+					String subString = textnl.substring(0, spaceIndex);
+					float size = getStringWidth(subString);
+					if (size > width) {
+						if (lastSpace < 0) {
+							lastSpace = spaceIndex;
+						}
+						subString = textnl.substring(0, lastSpace);
+						lines.add(subString);
+						textnl = textnl.substring(lastSpace).trim();
+						lastSpace = -1;
+					} else if (spaceIndex == textnl.length()) {
+						lines.add(textnl);
+						textnl = "";
+					} else {
 						lastSpace = spaceIndex;
 					}
-					subString = textnl.substring(0, lastSpace);
-					lines.add(subString);
-					textnl = textnl.substring(lastSpace).trim();
-					lastSpace = -1;
-				} else if (spaceIndex == textnl.length()) {
-					lines.add(textnl);
-					textnl = "";
-				} else {
-					lastSpace = spaceIndex;
 				}
 			}
 		}
 		return lines;
+	}
+
+	public float getStringWidth(String str) throws IOException {
+		return fontSize * font.getStringWidth(str) / 1000;
 	}
 
 	private static String replaceNonVisibleCharactersWithSpace(String text) {
@@ -131,7 +139,7 @@ public class TextElement extends AbstractContentStreamElement {
 		}
 		text = text.trim().replace("\r", "");
 		List<String> lines = splitStringIntoLines(text, width);
-		return (font.getFontDescriptor().getCapHeight() / 1000 * (fontSize + getLeading())) * lines.size();
+		return getLeading() * lines.size();
 	}
 
 	private float getLeading() {

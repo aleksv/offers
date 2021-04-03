@@ -10,8 +10,7 @@ public class ItemController extends AListController<Item, ItemDao> {
 
 	@Override
 	public boolean hasFilterMatched(Item entry, String lowerCaseFilter) {
-		return entry.getName().toLowerCase().contains(lowerCaseFilter)
-				|| (entry.getUnit() != null && entry.getUnit().toString().toLowerCase().contains(lowerCaseFilter));
+		return entry.getName().toLowerCase().contains(lowerCaseFilter);
 	}
 
 	@Override
@@ -24,8 +23,6 @@ public class ItemController extends AListController<Item, ItemDao> {
 		Map<String, String> m = new LinkedHashMap<>();
 		m.put("ID", "id");
 		m.put("Name", "name");
-		m.put("Einheit", "unit");
-		m.put("Preis", "price");
 		return m;
 	}
 

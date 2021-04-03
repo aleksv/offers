@@ -2,6 +2,7 @@ package at.neseri.offers.main.offer;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class OfferDao extends ADao<Offer> {
 		deleteOfferPositions(entry);
 		AtomicInteger pos = new AtomicInteger(1);
 		entry.getOfferPositions().forEach(op -> {
-			executeUpdate("INSERT INTO offerPosition (id_offer, position, cost, details, title) " 
+			executeUpdate("INSERT INTO offerPosition (id_offer, position, cost, details, title) "
 					+ "VALUES(?,?,?,?,?)",
 					Optional.of(ps -> {
 						ps.setInt(1, entry.getId());
@@ -79,19 +80,28 @@ public class OfferDao extends ADao<Offer> {
 	@Override
 	public Offer getInstance() {
 		Offer o = new Offer()
-				.withOfferPositionsReference(new Reference<Integer, List<OfferPosition>>((id) -> getOfferPositions(id)))
+				.withOfferPositionsReference(new Reference<Integer, List<OfferPosition>>(
+						(id) -> id == 0 ? new ArrayList<>() : getOfferPositions(id)))
 				.withCustomerReference(new Reference<Integer, Customer>(
 						(id) -> MainController.getInstance().getCustomerController().getMasterMap().get(id)));
 		return o;
 	}
 
 	private List<OfferPosition> getOfferPositions(int offerId) {
-		return mapResultSet("SELECT * FROM offerPosition WHERE id_offer = ? ORDER BY position", rs -> {
-			OfferPosition p = new OfferPosition();
-			p.setCost(rs.getDouble("cost"));
-			p.setDetails(rs.getString("details"));
-			p.setPosTitle(rs.getString("title"));
-			return p;
-		}, Optional.of(ps -> ps.setInt(1, offerId)));
+		List<OfferPosition> result = mapResultSet("SELECT * FROM offerPosition WHERE id_offer = ? ORDER BY position",
+				rs -> {
+					OfferPosition p = new OfferPosition();
+					p.setCost(rs.getDouble("cost"));
+					p.setDetails(rs.getString("details"));
+					p.setPosTitle(rs.getString("title"));
+					return p;
+				}, Optional.of(ps -> ps.setInt(1, offerId)));
+		LOG.info("Param: " + offerId);
+		return result;
+	}
+
+	public List<String> getPosTitleSuggestions() {
+		return mapResultSet("SELECT title FROM offerPosition ORDER BY position", rs -> rs.getString("title"),
+				Optional.empty());
 	}
 }

@@ -21,4 +21,8 @@ public class Reference<TIn, TOut> {
 		cacheId = id;
 		return cache;
 	}
+
+	public void setCacheId(TIn id) {
+		cacheId = id;
+	}
 }

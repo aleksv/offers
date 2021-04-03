@@ -25,6 +25,8 @@ public class Offer implements IIdentity {
 	@Override
 	public void setId(int id) {
 		this.id = id;
+		offerPositions.setCacheId(id);
+		customer.setCacheId(id);
 	}
 
 	public Offer withId(int id) {

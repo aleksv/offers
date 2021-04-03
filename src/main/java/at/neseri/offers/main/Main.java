@@ -51,7 +51,6 @@ public class Main extends Application {
 				dbPath = args[0];
 			}
 			launch(args);
-			System.out.println(1 / 0);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 		}

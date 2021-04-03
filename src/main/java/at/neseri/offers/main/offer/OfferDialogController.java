@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 
 import org.controlsfx.control.textfield.TextFields;
 
@@ -54,10 +53,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		ObservableList<Customer> masterList = MainController.getInstance().getCustomerController().getMasterList();
 		customerChoiceBox.setItems(masterList);
 
-		posTitleAutocompleteSuggestions = MainController.getInstance().getOfferController().getMasterList()
-				.parallelStream()
-				.flatMap(o -> o.getOfferPositions().stream()).map(OfferPosition::getPosTitle).distinct().sorted()
-				.collect(Collectors.toList());
+		posTitleAutocompleteSuggestions = MainController.getInstance().getOfferController().getPosTitleSuggestions();
 
 		idTextfield.setText(String.valueOf(entry.getId()));
 		customerChoiceBox.getSelectionModel().select(entry.getCustomer());
@@ -119,7 +115,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 
 			detailsTextarea.get().setText(offerPosition.getDetails());
 			addItemChoicebox.get().setItems(MainController.getInstance().getItemController().getMasterList());
-			updateCost(offerPosition, costTextfield, 0);
+			updateCost(offerPosition, costTextfield);
 			posTitleTextfield.get().setText(offerPosition.getPosTitle());
 
 			detailsTextarea.get().textProperty().addListener(s -> {
@@ -150,7 +146,6 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 							detailsTextarea.get()
 									.appendText("\n" + String.valueOf(value));
 						}
-						updateCost(offerPosition, costTextfield, value.getPrice());
 						addItemChoicebox.get().getSelectionModel().clearSelection();
 					});
 
@@ -180,10 +175,10 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		}
 	}
 
-	private void updateCost(OfferPosition offerPosition, AtomicReference<TextField> costTextfield, double addPrice) {
-		if (offerPosition.getCost() + addPrice > 0) {
+	private void updateCost(OfferPosition offerPosition, AtomicReference<TextField> costTextfield) {
+		if (offerPosition.getCost() > 0) {
 			costTextfield.get().textProperty()
-					.set(String.valueOf(((double) Math.round((offerPosition.getCost() + addPrice) * 100)) / 100)
+					.set(String.valueOf(((double) Math.round((offerPosition.getCost()) * 100)) / 100)
 							.replace(".",
 									","));
 		} else {
