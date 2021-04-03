@@ -6,3 +6,4 @@
 - datum in listen richtig formatieren
 - buttons in dialogen mit abstand
 - properties file mit grunddaten
+- min fenstergrösse
