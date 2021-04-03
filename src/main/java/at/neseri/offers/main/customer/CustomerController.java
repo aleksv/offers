@@ -25,6 +25,7 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 		m.put("ID", "id");
 		m.put("Nachname", "nachname");
 		m.put("Vorname", "vorname");
+		m.put("Ort", "ort");
 		return m;
 	}
 

@@ -122,6 +122,10 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		currY -= FONT_SIZE_NORMAL * 3;
 
 		int pos = 1;
+		double sum = 0;
+		NumberFormat numberInstance = NumberFormat.getNumberInstance(Locale.GERMAN);
+		numberInstance.setMinimumFractionDigits(2);
+		numberInstance.setMaximumFractionDigits(2);
 		for (OfferPosition op : offer.getOfferPositions()) {
 
 			float detailsHeight = textElement.calcMultilineHeight(op.getDetails(), getPageWidth() - 5 * MARGIN);
@@ -135,18 +139,21 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			textElement.write(MARGIN + 0.15f, currY + 0.15f, "Pos. " + (pos++) + ": " + op.getPosTitle());
 
 			textElement.setAlignment(Align.R);
-			NumberFormat numberInstance = NumberFormat.getNumberInstance(Locale.GERMAN);
-			numberInstance.setMinimumFractionDigits(2);
-			numberInstance.setMaximumFractionDigits(2);
-			textElement.write(getPageWidth() - MARGIN, currY,
-					numberInstance.format(op.getCost()));
+
+			if (op.getCost() > 0) {
+				textElement.write(getPageWidth() - MARGIN, currY,
+						numberInstance.format(op.getCost()));
+			}
+
 			textElement.setAlignment(Align.L);
 
 			currY -= FONT_SIZE_NORMAL * 1.4;
 			textElement.writeMultiline(MARGIN + 10, currY, getPageWidth() - 5 * MARGIN, op.getDetails());
 			currY -= detailsHeight;
 			currY -= FONT_SIZE_NORMAL * 1.4;
+			sum += op.getCost();
 		}
+
 		if (offer.getNote() != null) {
 			float height = textElement.calcMultilineHeight(offer.getNote(), getPageWidth() - 2 * MARGIN);
 			if (currY - MARGIN * 1.5 - ((FONT_SIZE_NORMAL * 1.4) * 2 + height) < 0) {
@@ -162,12 +169,18 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		}
 		lineElement.write(MARGIN, 220, getPageWidth() - MARGIN, 220);
 		textElement.setAlignment(Align.R);
-		textElement.write(getPageWidth() - MARGIN, 210, "Nettosumme EUR            7600");
+		textElement.write(getPageWidth() - MARGIN - 56, 210, "Nettosumme EUR");
+		textElement.write(getPageWidth() - MARGIN, 210, numberInstance.format(sum));
 		lineElement.write(getPageWidth() - MARGIN - 76, 208, getPageWidth() - MARGIN, 208);
-		textElement.write(getPageWidth() - MARGIN, 196, "20 % MwSt. EUR            1555");
+		textElement.write(getPageWidth() - MARGIN - 56, 196, "20 % MwSt. EUR");
+		textElement.write(getPageWidth() - MARGIN, 196, numberInstance.format(sum * 0.2));
 		lineElement.write(getPageWidth() - MARGIN - 76, 194, getPageWidth() - MARGIN, 194);
-		textElement.write(getPageWidth() - MARGIN, 182, "Bruttosumme EUR            1243");
-		textElement.write(getPageWidth() - MARGIN - 0.2f, 182.2f, "Bruttosumme EUR            1243");
+		textElement.write(getPageWidth() - MARGIN - 56, 182, "Bruttosumme EUR");
+		textElement.write(getPageWidth() - MARGIN - 56 + 0.1f, 182 + 0.1f, "Bruttosumme EUR");
+		textElement.write(getPageWidth() - MARGIN, 182,
+				numberInstance.format(sum * 1.2));
+		textElement.write(getPageWidth() - MARGIN - 0.2f, 182.2f,
+				numberInstance.format(sum * 1.2));
 		lineElement.write(getPageWidth() - MARGIN - 76, 180, getPageWidth() - MARGIN, 180);
 		lineElement.write(getPageWidth() - MARGIN - 76, 178, getPageWidth() - MARGIN, 178);
 
