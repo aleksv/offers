@@ -7,3 +7,4 @@
 - buttons in dialogen mit abstand
 - properties file mit grunddaten
 - min fenstergrösse
+- verschieben von pos oben/unten
