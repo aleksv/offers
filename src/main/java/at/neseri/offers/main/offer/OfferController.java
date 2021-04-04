@@ -3,6 +3,8 @@ package at.neseri.offers.main.offer;
 import java.awt.Desktop;
 import java.io.File;
 import java.nio.file.Files;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,11 @@ public class OfferController extends AListController<Offer, OfferDao> {
 	}
 
 	@Override
+	public void initialize() {
+		super.initialize();
+	}
+
+	@Override
 	protected OfferDao getDaoInstance() {
 		return new OfferDao(Main.getDatabase());
 	}
@@ -35,6 +42,13 @@ public class OfferController extends AListController<Offer, OfferDao> {
 		m.put("Erstellt", "created");
 		m.put("Betreff", "subject");
 		m.put("Kunde", "customer");
+		return m;
+	}
+
+	@Override
+	protected Map<String, Class<?>> getColumnTypes() {
+		Map<String, Class<?>> m = new HashMap<>();
+		m.put("Erstellt", LocalDate.class);
 		return m;
 	}
 

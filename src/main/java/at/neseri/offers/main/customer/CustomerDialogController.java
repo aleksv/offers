@@ -1,5 +1,7 @@
 package at.neseri.offers.main.customer;
 
+import java.util.Optional;
+
 import at.neseri.offers.main.utils.AStageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -42,12 +44,33 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 	}
 
 	@Override
-	protected void save() {
+	protected boolean save() {
+		if (Optional.ofNullable(vornameTextfield.getText()).orElse("").isBlank()) {
+			showMandatoryError("Vorname", vornameTextfield);
+			return false;
+		}
+		if (Optional.ofNullable(nachnameTextfield.getText()).orElse("").isBlank()) {
+			showMandatoryError("Nachname", nachnameTextfield);
+			return false;
+		}
+		if (Optional.ofNullable(ortTextfield.getText()).orElse("").isBlank()) {
+			showMandatoryError("Ort", ortTextfield);
+			return false;
+		}
+		if (Optional.ofNullable(plzTextfield.getText()).orElse("").isBlank()) {
+			showMandatoryError("PLZ", plzTextfield);
+			return false;
+		}
+		if (Optional.ofNullable(strasseTextfield.getText()).orElse("").isBlank()) {
+			showMandatoryError("Straße", strasseTextfield);
+			return false;
+		}
+
 		entry.setVorname(vornameTextfield.getText());
 		entry.setNachname(nachnameTextfield.getText());
 		entry.setOrt(ortTextfield.getText());
 		entry.setPlz(plzTextfield.getText());
 		entry.setStrasse(strasseTextfield.getText());
-
+		return true;
 	}
 }

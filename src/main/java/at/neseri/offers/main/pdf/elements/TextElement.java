@@ -84,7 +84,7 @@ public class TextElement extends AbstractContentStreamElement {
 		contentStream.setFont(font, fontSize);
 		contentStream.newLineAtOffset(x, y);
 		for (String line : lines) {
-			contentStream.showText(line);
+			contentStream.showText(stripIllegalChars(line));
 			contentStream.newLineAtOffset(0, -getLeading());
 		}
 		contentStream.endText();
@@ -126,7 +126,7 @@ public class TextElement extends AbstractContentStreamElement {
 	}
 
 	public float getStringWidth(String str) throws IOException {
-		return fontSize * font.getStringWidth(str) / 1000;
+		return fontSize * font.getStringWidth(stripIllegalChars(str)) / 1000;
 	}
 
 	private static String replaceNonVisibleCharactersWithSpace(String text) {

@@ -1,5 +1,7 @@
 package at.neseri.offers.main.item;
 
+import java.util.Optional;
+
 import at.neseri.offers.main.utils.AStageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -22,8 +24,13 @@ public class ItemDialogController extends AStageController<Item, ItemDao> {
 	}
 
 	@Override
-	protected void save() {
+	protected boolean save() {
+		if (Optional.ofNullable(nameTextfield.getText()).orElse("").isBlank()) {
+			showMandatoryError("Name", nameTextfield);
+			return false;
+		}
 		entry.setName(nameTextfield.getText());
+		return true;
 	}
 
 }

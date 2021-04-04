@@ -1,10 +1,9 @@
 - tabulator-sprünge
-- pflichtfelder
-- positionen: enum, preis loeschen
 - min-grösse der fenster
 - tableviewer sortierung umkehren (ID)
-- datum in listen richtig formatieren
 - buttons in dialogen mit abstand
 - properties file mit grunddaten
 - min fenstergrösse
 - verschieben von pos oben/unten
+- icons
+- id-spalte schmäler

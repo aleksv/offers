@@ -47,6 +47,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	private List<String> posTitleAutocompleteSuggestions;
 	private final List<OfferPosition> offerPositions = new ArrayList<>();
 
+	private List<TextField> posTitleTextfields = new ArrayList<>();
+
 	@Override
 	public void onLoad() {
 
@@ -66,12 +68,26 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	}
 
 	@Override
-	protected void save() {
+	protected boolean save() {
+		if (subjectTextfield.getText().trim().isBlank()) {
+			showMandatoryError("Betreff", subjectTextfield);
+			return false;
+		} else if (customerChoiceBox.getSelectionModel().getSelectedItem() == null) {
+			showMandatoryError("Kunde", customerChoiceBox);
+			return false;
+		} else if (posTitleTextfields.stream().filter(o -> o.getText() == null || o.getText().isBlank()).findFirst()
+				.isPresent()) {
+			showMandatoryError("Pos.-Titel", posTitleTextfields.stream()
+					.filter(o -> o.getText() == null || o.getText().isBlank()).findFirst().get());
+			return false;
+		}
+
 		entry.setCustomerId(customerChoiceBox.getSelectionModel().getSelectedItem().getId());
 		entry.setSubject(subjectTextfield.getText());
 		entry.setNote(noteTextarea.getText());
 		entry.getOfferPositions().clear();
 		entry.getOfferPositions().addAll(offerPositions);
+		return true;
 	}
 
 	public void onAddItemButton() {
@@ -166,9 +182,11 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			deleteItemButton.get().setOnAction(e -> {
 				offerPositions.remove(offerPosition);
 				itemsVbox.getChildren().remove(gp);
+				posTitleTextfields.remove(posTitleTextfield.get());
 			});
 
 			itemsVbox.getChildren().add(gp);
+			posTitleTextfields.add(posTitleTextfield.get());
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);

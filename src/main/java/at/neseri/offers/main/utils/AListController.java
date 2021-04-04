@@ -1,5 +1,7 @@
 package at.neseri.offers.main.utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -21,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -46,6 +49,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 			TableColumn c = new TableColumn();
 			c.setText(title);
 			c.setCellValueFactory(new PropertyValueFactory<>(prop));
+			setCellFactory(c, title);
 			tableView.getColumns().add(c);
 		});
 
@@ -62,6 +66,23 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 
 		updateEntryTable();
 		tableView.getSortOrder().add(tableView.getColumns().get(0));
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void setCellFactory(TableColumn c, String title) {
+		if (getColumnTypes().getOrDefault(title, Object.class).equals(LocalDate.class)) {
+			c.setCellFactory(column -> {
+				TableCell<T, LocalDate> cell = new TableCell<T, LocalDate>() {
+					@Override
+					protected void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+						setText(empty || item == null ? null
+								: item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+					}
+				};
+				return cell;
+			});
+		}
 	}
 
 	protected ContextMenu initContextMenu() {
@@ -148,6 +169,10 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	protected abstract TT getDaoInstance();
 
 	protected abstract Map<String, String> getColumnFields();
+
+	protected Map<String, Class<?>> getColumnTypes() {
+		return Collections.emptyMap();
+	}
 
 	public Map<Integer, T> getMasterMap() {
 		return Collections.unmodifiableMap(masterMap);
