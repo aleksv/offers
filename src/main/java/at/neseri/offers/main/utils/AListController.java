@@ -148,8 +148,8 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 				});
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle(getTitle());
-		stage.setWidth(getWidth());
-		stage.setHeight(getHeight());
+		stage.setMinWidth(getWidth());
+		stage.setMinHeight(getHeight());
 		stage.showAndWait();
 		updateEntryTable();
 	}

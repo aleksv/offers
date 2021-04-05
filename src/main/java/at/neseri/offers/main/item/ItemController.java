@@ -31,4 +31,13 @@ public class ItemController extends AListController<Item, ItemDao> {
 		return "Positionen";
 	}
 
+	@Override
+	protected int getWidth() {
+		return 400;
+	}
+
+	@Override
+	protected int getHeight() {
+		return 180;
+	}
 }

@@ -33,4 +33,9 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 	protected String getTitle() {
 		return "Kunden";
 	}
+
+	@Override
+	protected int getHeight() {
+		return 300;
+	}
 }

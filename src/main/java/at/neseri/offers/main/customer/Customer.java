@@ -3,7 +3,7 @@ package at.neseri.offers.main.customer;
 import at.neseri.offers.main.db.IIdentity;
 
 public class Customer implements IIdentity {
-	private int id;
+	private int id = 0;
 	private String vorname;
 	private String nachname;
 	private String strasse;

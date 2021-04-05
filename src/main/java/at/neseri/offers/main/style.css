@@ -9,7 +9,20 @@
     -fx-font-size: 10.0pt ;
 }
 
-Label {
-    -fx-padding: 0.0 5.0pt 0.0 5.0pt;
+.button, .label, .text-field {
+	-fx-max-height:27.0;
+	-fx-min-height:27.0;
+	-fx-min-width:27.0;
+	-fx-padding: 0 5 0 5;
+}
+
+.grid-pane  {
+    -fx-vgap: 2.0;
+    -fx-hgap: 2.0;
+    -fx-min-height: 30.0 ;
+}
+
+.button .text {
+	-fx-text-alignment: center ;
 }
 
