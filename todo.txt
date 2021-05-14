@@ -3,3 +3,4 @@
 - verschieben von pos oben/unten
 - icons
 - id-spalte schmäler
+- add-button scrollto neues panel
