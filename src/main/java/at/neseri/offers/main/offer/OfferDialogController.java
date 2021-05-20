@@ -14,12 +14,15 @@ import at.neseri.offers.main.MainController;
 import at.neseri.offers.main.customer.Customer;
 import at.neseri.offers.main.item.Item;
 import at.neseri.offers.main.utils.AStageController;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -42,7 +45,11 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	@FXML
 	private VBox itemsVbox;
 	@FXML
+	private DatePicker createdDatePicker;
+	@FXML
 	private Button addItemButton;
+	@FXML
+	private ScrollPane itemsScrollPane;
 	private List<Pane> itemPanes = new ArrayList<>();
 	private List<String> posTitleAutocompleteSuggestions;
 	private final List<OfferPosition> offerPositions = new ArrayList<>();
@@ -62,6 +69,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		Optional.ofNullable(entry.getSubject()).ifPresent(subjectTextfield::setText);
 		Optional.ofNullable(entry.getNote()).ifPresent(noteTextarea::setText);
 		entry.getOfferPositions().stream().forEach(op -> addItemPanel(op));
+		createdDatePicker.setValue(entry.getCreated());
 
 		offerPositions.addAll(entry.getOfferPositions());
 
@@ -87,6 +95,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		entry.setNote(noteTextarea.getText());
 		entry.getOfferPositions().clear();
 		entry.getOfferPositions().addAll(offerPositions);
+		entry.setCreated(createdDatePicker.getValue());
 		return true;
 	}
 
@@ -94,6 +103,10 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		OfferPosition offerPosition = new OfferPosition();
 		addItemPanel(offerPosition);
 		offerPositions.add(offerPosition);
+		Platform.runLater(() -> {
+			posTitleTextfields.get(posTitleTextfields.size() - 1).requestFocus();
+			itemsScrollPane.setVvalue(1d);
+		});
 	}
 
 	@SuppressWarnings("unchecked")

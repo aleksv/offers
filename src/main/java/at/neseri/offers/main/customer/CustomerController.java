@@ -5,6 +5,8 @@ import java.util.Map;
 
 import at.neseri.offers.main.Main;
 import at.neseri.offers.main.utils.AListController;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
 
 public class CustomerController extends AListController<Customer, CustomerDao> {
 
@@ -27,6 +29,20 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 		m.put("Vorname", "vorname");
 		m.put("Ort", "ort");
 		return m;
+	}
+
+	@Override
+	public void initialize() {
+		super.initialize();
+		TableColumn<Customer, ?> idCol = tableView.getColumns().get(0);
+		idCol.setMinWidth(80);
+		idCol.setMaxWidth(80);
+
+		tableView.getSortOrder().clear();
+		TableColumn<Customer, ?> nachnameCol = tableView.getColumns().get(1);
+		nachnameCol.setSortType(SortType.ASCENDING);
+		tableView.getSortOrder().add(nachnameCol);
+		tableView.sort();
 	}
 
 	@Override

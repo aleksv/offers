@@ -7,104 +7,66 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane minHeight="500.0" minWidth="1000.0"
-	prefHeight="200.0" prefWidth="200.0" styleClass="grid-pane"
-	stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="at.neseri.offers.main.offer.OfferDialogController">
+<GridPane minHeight="500.0" minWidth="1000.0" prefHeight="200.0" prefWidth="200.0" styleClass="grid-pane" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.offer.OfferDialogController">
 	<columnConstraints>
-		<ColumnConstraints hgrow="NEVER" maxWidth="150.0"
-			minWidth="150.0" />
-		<ColumnConstraints hgrow="ALWAYS"
-			maxWidth="1.7976931348623157E308" />
+		<ColumnConstraints hgrow="NEVER" maxWidth="150.0" minWidth="150.0" />
+		<ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
-		<RowConstraints maxHeight="1.7976931348623157E308"
-			minHeight="100.0" prefHeight="100.0" />
-		<RowConstraints minHeight="20.0" prefHeight="20.0" />
+		<RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="100.0" />
 		<RowConstraints />
 		<RowConstraints />
-		<RowConstraints fillHeight="false" valignment="BOTTOM"
-			vgrow="ALWAYS" />
-		<RowConstraints maxHeight="30.0" minHeight="30.0"
-			prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
-		<RowConstraints fillHeight="false" maxHeight="30.0"
-			minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="NEVER" />
+		<RowConstraints fillHeight="false" valignment="BOTTOM" vgrow="ALWAYS" />
+		<RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
+		<RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="NEVER" />
 	</rowConstraints>
 	<children>
-		<TextField fx:id="idTextfield" alignment="CENTER_RIGHT"
-			disable="true" editable="false" maxHeight="25.0" maxWidth="50.0"
-			prefHeight="25.0" prefWidth="50.0" promptText="ID"
-			GridPane.columnIndex="1" />
-		<HBox alignment="CENTER_RIGHT" fillHeight="false"
-			GridPane.columnSpan="2" GridPane.rowIndex="7">
+		<TextField fx:id="idTextfield" alignment="CENTER_RIGHT" disable="true" editable="false" maxHeight="25.0" maxWidth="50.0" prefHeight="25.0" prefWidth="50.0" promptText="ID" GridPane.columnIndex="1" />
+		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.rowIndex="7">
 			<children>
-				<Button fx:id="saveButton" mnemonicParsing="false"
-					onAction="#onSaveButton" text="Speichern" />
-				<Button fx:id="cancelButton" cancelButton="true"
-					defaultButton="true" mnemonicParsing="false"
-					onAction="#onCancelButton" text="Abbrechen" />
+				<Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+				<Button fx:id="cancelButton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
 			<GridPane.margin>
 				<Insets bottom="5.0" right="5.0" />
 			</GridPane.margin>
 		</HBox>
-		<ChoiceBox fx:id="customerChoiceBox" maxHeight="25.0"
-			maxWidth="500.0" prefHeight="25.0" prefWidth="500.0"
-			GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
-			GridPane.rowIndex="1" />
-		<Label prefHeight="25.0" prefWidth="1000.0" text="Kunde"
-			GridPane.rowIndex="1">
+		<ChoiceBox fx:id="customerChoiceBox" maxHeight="25.0" maxWidth="500.0" prefHeight="25.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+		<Label prefHeight="25.0" prefWidth="1000.0" text="Kunde" GridPane.rowIndex="2">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
 		</Label>
-		<Label prefHeight="25.0" prefWidth="1000.0" text="ID"
-			GridPane.hgrow="ALWAYS">
+		<Label prefHeight="25.0" prefWidth="1000.0" text="ID" GridPane.hgrow="ALWAYS">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
 		</Label>
-		<Label prefHeight="25.0" prefWidth="1000.0" text="Betreff"
-			GridPane.rowIndex="2">
+		<Label prefHeight="25.0" prefWidth="1000.0" text="Betreff" GridPane.rowIndex="3">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
 		</Label>
-		<TextField fx:id="subjectTextfield" maxHeight="25.0"
-			maxWidth="500.0" prefHeight="25.0" prefWidth="500.0"
-			GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
-			GridPane.rowIndex="2" />
-		<TextArea fx:id="noteTextarea" minHeight="100.0"
-			prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-			GridPane.rowIndex="3" />
-		<ScrollPane fitToHeight="true" fitToWidth="true"
-			prefHeight="1000.0" prefWidth="1000.0" GridPane.columnIndex="1"
-			GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
+		<TextField fx:id="subjectTextfield" maxHeight="25.0" maxWidth="500.0" prefHeight="25.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+		<TextArea fx:id="noteTextarea" minHeight="100.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+		<ScrollPane fx:id="itemsScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="1000.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
 			<content>
-				<VBox fx:id="itemsVbox" maxHeight="1.7976931348623157E308"
-					maxWidth="1.7976931348623157E308" />
+				<VBox fx:id="itemsVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
 			</content>
 		</ScrollPane>
-		<HBox alignment="TOP_CENTER" GridPane.rowIndex="7"
-			GridPane.valignment="TOP">
+		<HBox alignment="TOP_CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP">
 			<children>
-				<Button fx:id="addItemButton" mnemonicParsing="false"
-					onAction="#onAddItemButton" text="+" GridPane.halignment="CENTER"
-					GridPane.rowIndex="7" GridPane.valignment="TOP" />
+				<Button fx:id="addItemButton" mnemonicParsing="false" onAction="#onAddItemButton" text="+" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP" />
 			</children>
 		</HBox>
-		<HBox alignment="CENTER_RIGHT" fillHeight="false"
-			GridPane.columnSpan="2" GridPane.halignment="RIGHT"
-			GridPane.rowIndex="9" GridPane.valignment="CENTER">
+		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="CENTER">
 			<children>
-				<Button fx:id="saveButton1" defaultButton="true"
-					mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
-				<Button fx:id="cancelButton1" cancelButton="true"
-					mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+				<Button fx:id="saveButton1" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+				<Button fx:id="cancelButton1" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
 			<opaqueInsets>
 				<Insets bottom="5.0" right="5.0" />
@@ -113,11 +75,17 @@
 				<Insets bottom="5.0" right="5.0" />
 			</padding>
 		</HBox>
-		<Label text="Bemerkung" GridPane.rowIndex="3">
+		<Label text="Bemerkung" GridPane.rowIndex="4">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
 		</Label>
+      <DatePicker fx:id="createdDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label text="Datum" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
 
 	</children>
 </GridPane>

@@ -16,6 +16,8 @@ import at.neseri.offers.main.utils.AListController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
 
 public class OfferController extends AListController<Offer, OfferDao> {
 
@@ -28,6 +30,14 @@ public class OfferController extends AListController<Offer, OfferDao> {
 	@Override
 	public void initialize() {
 		super.initialize();
+		TableColumn<Offer, ?> idCol = tableView.getColumns().get(0);
+		idCol.setMinWidth(80);
+		idCol.setMaxWidth(80);
+
+		tableView.getSortOrder().clear();
+		idCol.setSortType(SortType.DESCENDING);
+		tableView.getSortOrder().add(idCol);
+		tableView.sort();
 	}
 
 	@Override
