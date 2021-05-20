@@ -1,6 +1,3 @@
-- tableviewer sortierung umkehren (ID)
 - properties file mit grunddaten
 - verschieben von pos oben/unten
 - icons
-- id-spalte schmäler
-- add-button scrollto neues panel
