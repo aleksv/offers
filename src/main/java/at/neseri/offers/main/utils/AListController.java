@@ -138,9 +138,9 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		tableView.refresh();
 	}
 
-	protected void xopenDialog(T entry) {
+	protected void openDialog(T entry) {
 		Stage stage = UiUtils.getStage(
-				getClass().getResource("/" + getClass().getPackageName().replace(".", "/") + "/Dialog.fxml"),
+				getClass().getResource("/" + getClass().getName().replace(".", "/") + "/Dialog.fxml"),
 				(AStageController<T, TT> c1) -> {
 					c1.setEntry(entry);
 					c1.setListController(AListController.this);
