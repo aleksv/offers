@@ -138,7 +138,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 		tableView.refresh();
 	}
 
-	protected void openDialog(T entry) {
+	protected void xopenDialog(T entry) {
 		Stage stage = UiUtils.getStage(
 				getClass().getResource("/" + getClass().getPackageName().replace(".", "/") + "/Dialog.fxml"),
 				(AStageController<T, TT> c1) -> {
