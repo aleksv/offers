@@ -60,13 +60,13 @@
 		</ScrollPane>
 		<HBox alignment="TOP_CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP">
 			<children>
-				<Button fx:id="addItemButton" mnemonicParsing="false" onAction="#onAddItemButton" text="+" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+				<Button fx:id="addItemButton" mnemonicParsing="false" onAction="#onAddItemButton" text="➕" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP" />
 			</children>
 		</HBox>
 		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="CENTER">
 			<children>
-				<Button fx:id="saveButton1" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
-				<Button fx:id="cancelButton1" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+				<Button defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+				<Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
 			<opaqueInsets>
 				<Insets bottom="5.0" right="5.0" />

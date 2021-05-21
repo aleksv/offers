@@ -23,7 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -112,7 +111,6 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	@SuppressWarnings("unchecked")
 	private void addItemPanel(OfferPosition offerPosition) {
 		try {
-			itemsVbox.getChildren().add(new Separator());
 			GridPane gp = FXMLLoader.load(getClass().getResource("Item.fxml"));
 			itemPanes.add(gp);
 
@@ -121,6 +119,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			AtomicReference<TextField> costTextfield = new AtomicReference<>();
 			AtomicReference<TextField> posTitleTextfield = new AtomicReference<>();
 			AtomicReference<Button> deleteItemButton = new AtomicReference<>();
+			AtomicReference<Button> moveUpButton = new AtomicReference<>();
+			AtomicReference<Button> moveDownButton = new AtomicReference<>();
 
 			gp.getChildren().stream().filter(Objects::nonNull).forEach(n -> {
 				switch (Optional.of(n).map(Node::getId).orElse("")) {
@@ -138,6 +138,12 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 					break;
 				case "deleteItemButton":
 					deleteItemButton.set((Button) n);
+					break;
+				case "moveUpButton":
+					moveUpButton.set((Button) n);
+					break;
+				case "moveDownButton":
+					moveDownButton.set((Button) n);
 					break;
 				}
 			});
@@ -196,6 +202,28 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 				offerPositions.remove(offerPosition);
 				itemsVbox.getChildren().remove(gp);
 				posTitleTextfields.remove(posTitleTextfield.get());
+			});
+
+			moveUpButton.get().setOnAction(e -> {
+				int index = offerPositions.indexOf(offerPosition);
+				if (index > 0) {
+					index--;
+					offerPositions.remove(offerPosition);
+					offerPositions.add(index, offerPosition);
+					itemsVbox.getChildren().remove(gp);
+					itemsVbox.getChildren().add(index, gp);
+				}
+			});
+
+			moveDownButton.get().setOnAction(e -> {
+				int index = offerPositions.indexOf(offerPosition);
+				if (index < offerPositions.size() - 1) {
+					index++;
+					offerPositions.remove(offerPosition);
+					offerPositions.add(index, offerPosition);
+					itemsVbox.getChildren().remove(gp);
+					itemsVbox.getChildren().add(index, gp);
+				}
 			});
 
 			itemsVbox.getChildren().add(gp);

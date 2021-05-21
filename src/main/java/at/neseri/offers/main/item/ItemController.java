@@ -49,7 +49,7 @@ public class ItemController extends AListController<Item, ItemDao> {
 
 	@Override
 	protected int getWidth() {
-		return 400;
+		return 600;
 	}
 
 	@Override
