@@ -13,7 +13,7 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="at.neseri.offers.main.MainController">
 	<stylesheets>
-		<URL value="@style.css" />
+
 	</stylesheets>
 	<children>
 		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">

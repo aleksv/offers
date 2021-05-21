@@ -28,13 +28,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/at/neseri/offers/main/Main.fxml"));
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root);
 		setUserAgentStylesheet(STYLESHEET_MODENA);
+		root.getStylesheets().add("/style.css");
 		stage.setScene(scene);
 		stage.setTitle("Angebots-Progrämmle");
-		stage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		stage.setWidth(1000);
 		stage.setMinWidth(600);
 		stage.setHeight(600);

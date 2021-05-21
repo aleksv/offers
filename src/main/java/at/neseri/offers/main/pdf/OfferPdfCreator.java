@@ -81,7 +81,7 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 	}
 
 	private void create() throws IOException {
-		setLogo(Main.class.getResourceAsStream("maier-maler.png").readAllBytes());
+		setLogo(Main.class.getResourceAsStream("/maier-maler.png").readAllBytes());
 
 		addNewPageToDocument();
 		Customer customer = offer.getCustomer();

@@ -111,7 +111,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	@SuppressWarnings("unchecked")
 	private void addItemPanel(OfferPosition offerPosition) {
 		try {
-			GridPane gp = FXMLLoader.load(getClass().getResource("Item.fxml"));
+			GridPane gp = FXMLLoader.load(getClass().getResource("/at/neseri/offers/main/offer/Item.fxml"));
 			itemPanes.add(gp);
 
 			AtomicReference<ChoiceBox<Item>> addItemChoicebox = new AtomicReference<>();

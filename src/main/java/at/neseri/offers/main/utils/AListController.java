@@ -139,7 +139,8 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	}
 
 	protected void openDialog(T entry) {
-		Stage stage = UiUtils.getStage(getClass().getResource("Dialog.fxml"),
+		Stage stage = UiUtils.getStage(
+				getClass().getResource("/" + getClass().getPackageName().replace(".", "/") + "/Dialog.fxml"),
 				(AStageController<T, TT> c1) -> {
 					c1.setEntry(entry);
 					c1.setListController(AListController.this);

@@ -24,6 +24,7 @@ public class UiUtils {
 			FXMLLoader loader = new FXMLLoader(resource);
 			Parent root;
 			root = loader.load();
+			root.getStylesheets().add("/style.css");
 			Scene scene = new Scene(root);
 			T controller = loader.getController();
 			Stage stage = new Stage();

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane minHeight="150.0" minWidth="200.0" prefHeight="150.0" prefWidth="250.0" styleClass="grid-pane" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.item.ItemDialogController">
+<GridPane minHeight="150.0" minWidth="200.0" prefHeight="150.0" prefWidth="250.0" styleClass="grid-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.item.ItemDialogController">
 	<columnConstraints>
 		<ColumnConstraints fillWidth="false" prefWidth="100.0" />
       <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />

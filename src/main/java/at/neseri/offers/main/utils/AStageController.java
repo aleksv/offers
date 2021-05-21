@@ -27,7 +27,7 @@ public abstract class AStageController<T extends IIdentity, TT extends ADao<T>> 
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
-		stage.getIcons().add(new Image(Main.class.getResourceAsStream("icon.png")));
+		stage.getIcons().add(new Image(Main.class.getResourceAsStream("/icon.png")));
 	}
 
 	public void setListController(AListController<T, TT> listController) {
