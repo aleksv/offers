@@ -51,7 +51,8 @@ public class Database implements AutoCloseable {
 					+ "  created integer NOT NULL, "
 					+ "  id_customer integer NULL, "
 					+ "  note text NULL, "
-					+ "  subject text NOT NULL "
+					+ "  subject text NOT NULL, "
+					+ "  condition text NULL "
 					+ ");");
 
 			statement = connection.createStatement();
@@ -63,6 +64,16 @@ public class Database implements AutoCloseable {
 					+ "  details text NULL, "
 					+ "  title text NOT NULL "
 					+ ");");
+
+			statement = connection.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS appProperty ("
+					+ "  id integer PRIMARY KEY, "
+					+ "  key text NOT NULL, "
+					+ "  value text NOT NULL "
+					+ ");");
+
+			statement = connection.createStatement();
+			statement.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_appProperty_key ON appProperty(key);");
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

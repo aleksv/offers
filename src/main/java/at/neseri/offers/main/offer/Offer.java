@@ -12,6 +12,7 @@ public class Offer implements IIdentity {
 	private int id;
 	private String note;
 	private String subject;
+	private String condition;
 	private LocalDate created = LocalDate.now();
 	private Reference<Integer, Customer> customer;
 	private int customerId;
@@ -106,6 +107,19 @@ public class Offer implements IIdentity {
 
 	@Override
 	public String toString() {
-		return subject + " (" + id + ")";
+		return subject;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public Offer withCondition(String condition) {
+		this.condition = condition;
+		return this;
 	}
 }

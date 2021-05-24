@@ -1,1 +1,2 @@
 - properties file mit grunddaten
+- loeschen von elementen pruefen

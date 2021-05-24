@@ -24,7 +24,8 @@ public class OfferDao extends ADao<Offer> {
 	@Override
 	protected DaoBiConsumer<ResultSet, Offer> getSelectDbMapper() {
 		return (rs, o) -> {
-			o.withId(rs.getInt("id")).withNote(rs.getString("note")).withCustomerId(rs.getInt("id_customer"))
+			o.withCondition("condition").withId(rs.getInt("id")).withNote(rs.getString("note"))
+					.withCustomerId(rs.getInt("id_customer"))
 					.withSubject(rs.getString("subject")).withCreated(LocalDate.ofEpochDay(rs.getLong("created")));
 		};
 	}
@@ -36,6 +37,7 @@ public class OfferDao extends ADao<Offer> {
 		map.put("id_customer", Offer::getCustomerId);
 		map.put("created", e -> e.getCreated().toEpochDay());
 		map.put("subject", Offer::getSubject);
+		map.put("condition", e -> e.getCondition());
 		return map;
 	}
 
@@ -101,7 +103,7 @@ public class OfferDao extends ADao<Offer> {
 	}
 
 	public List<String> getPosTitleSuggestions() {
-		return mapResultSet("SELECT title FROM offerPosition ORDER BY position", rs -> rs.getString("title"),
+		return mapResultSet("SELECT DISTINCT title FROM offerPosition ORDER BY position", rs -> rs.getString("title"),
 				Optional.empty());
 	}
 }

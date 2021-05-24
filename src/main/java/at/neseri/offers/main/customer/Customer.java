@@ -53,7 +53,7 @@ public class Customer implements IIdentity {
 
 	@Override
 	public String toString() {
-		return nachname + " " + vorname + " (" + id + ")";
+		return nachname + " " + vorname;
 	}
 
 	public String getStrasse() {
