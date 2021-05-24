@@ -40,6 +40,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 	@FXML
 	private TextField subjectTextfield;
 	@FXML
+	private TextField conditionTextfield;
+	@FXML
 	private TextArea noteTextarea;
 	@FXML
 	private VBox itemsVbox;
@@ -66,6 +68,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		idTextfield.setText(String.valueOf(entry.getId()));
 		customerChoiceBox.getSelectionModel().select(entry.getCustomer());
 		Optional.ofNullable(entry.getSubject()).ifPresent(subjectTextfield::setText);
+		Optional.ofNullable(entry.getCondition()).ifPresent(conditionTextfield::setText);
 		Optional.ofNullable(entry.getNote()).ifPresent(noteTextarea::setText);
 		entry.getOfferPositions().stream().forEach(op -> addItemPanel(op));
 		createdDatePicker.setValue(entry.getCreated());
@@ -87,10 +90,14 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			showMandatoryError("Pos.-Titel", posTitleTextfields.stream()
 					.filter(o -> o.getText() == null || o.getText().isBlank()).findFirst().get());
 			return false;
+		} else if (posTitleTextfields.isEmpty()) {
+			showMandatoryError("Position", null);
+			return false;
 		}
 
 		entry.setCustomerId(customerChoiceBox.getSelectionModel().getSelectedItem().getId());
 		entry.setSubject(subjectTextfield.getText());
+		entry.setCondition(conditionTextfield.getText());
 		entry.setNote(noteTextarea.getText());
 		entry.getOfferPositions().clear();
 		entry.getOfferPositions().addAll(offerPositions);

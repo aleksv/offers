@@ -58,7 +58,9 @@ public abstract class AStageController<T extends IIdentity, TT extends ADao<T>> 
 	protected abstract boolean save();
 
 	protected void showMandatoryError(String fieldname, Control elem) {
-		elem.requestFocus();
+		if (elem != null) {
+			elem.requestFocus();
+		}
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setHeaderText(fieldname + " ist ein Pflichtfeld");
 		alert.showAndWait();

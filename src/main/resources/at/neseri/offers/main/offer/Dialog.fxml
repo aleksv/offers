@@ -17,16 +17,18 @@
       <RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
+		<RowConstraints />
 		<RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="100.0" />
+      <RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints />
-		<RowConstraints />
+      <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
 		<RowConstraints fillHeight="false" valignment="BOTTOM" vgrow="ALWAYS" />
 		<RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
 		<RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="NEVER" />
 	</rowConstraints>
 	<children>
 		<TextField fx:id="idTextfield" alignment="CENTER_RIGHT" disable="true" editable="false" maxHeight="25.0" maxWidth="50.0" prefHeight="25.0" prefWidth="50.0" promptText="ID" GridPane.columnIndex="1" />
-		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.rowIndex="7">
+		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.rowIndex="9">
 			<children>
 				<Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
 				<Button fx:id="cancelButton" cancelButton="true" defaultButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
@@ -52,18 +54,23 @@
 			</font>
 		</Label>
 		<TextField fx:id="subjectTextfield" maxHeight="25.0" maxWidth="500.0" prefHeight="25.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-		<TextArea fx:id="noteTextarea" minHeight="100.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-		<ScrollPane fx:id="itemsScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="1000.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
+		<TextArea fx:id="noteTextarea" minHeight="100.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+		<ScrollPane fx:id="itemsScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="1000.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS">
 			<content>
 				<VBox fx:id="itemsVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
 			</content>
 		</ScrollPane>
-		<HBox alignment="TOP_CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP">
-			<children>
+      <VBox alignment="TOP_CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <children>
+            <Label text="Positionen">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
 				<Button fx:id="addItemButton" mnemonicParsing="false" onAction="#onAddItemButton" text="➕" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="TOP" />
-			</children>
-		</HBox>
-		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="CENTER">
+         </children>
+      </VBox>
+		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="CENTER">
 			<children>
 				<Button defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
 				<Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
@@ -75,7 +82,7 @@
 				<Insets bottom="5.0" right="5.0" />
 			</padding>
 		</HBox>
-		<Label text="Bemerkung" GridPane.rowIndex="4">
+		<Label text="Bemerkung" GridPane.rowIndex="5">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
@@ -86,6 +93,13 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Label text="Zahlungskonditionen" GridPane.rowIndex="6">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="conditionTextfield" maxHeight="25.0" maxWidth="500.0" prefHeight="25.0" prefWidth="500.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+      <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
 
 	</children>
 </GridPane>

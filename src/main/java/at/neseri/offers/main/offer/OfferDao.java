@@ -24,7 +24,7 @@ public class OfferDao extends ADao<Offer> {
 	@Override
 	protected DaoBiConsumer<ResultSet, Offer> getSelectDbMapper() {
 		return (rs, o) -> {
-			o.withCondition("condition").withId(rs.getInt("id")).withNote(rs.getString("note"))
+			o.withCondition(rs.getString("condition")).withId(rs.getInt("id")).withNote(rs.getString("note"))
 					.withCustomerId(rs.getInt("id_customer"))
 					.withSubject(rs.getString("subject")).withCreated(LocalDate.ofEpochDay(rs.getLong("created")));
 		};

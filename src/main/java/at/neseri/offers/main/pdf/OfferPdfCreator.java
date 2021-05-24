@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
@@ -186,8 +187,9 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		lineElement.write(getPageWidth() - MARGIN - 150, 178, getPageWidth() - MARGIN, 178);
 
 		textElement.setAlignment(Align.L);
+		String cond = Optional.ofNullable(offer.getCondition()).orElse("").trim();
 		textElement.writeMultiline(MARGIN, 155, 600, ""
-				+ "Zahlungskonditionen:\n"
+				+ (cond.isEmpty() ? "" : "Zahlungskonditionen:") + "\n"
 				+ "\n"
 				+ "Wir hoffen, Ihnen ein entsprechendes Angebot gemacht zu haben\n"
 				+ "und erwarten mit großem Interesse Ihren weiteren Bescheid.\n"
@@ -195,7 +197,7 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 				+ "Mit freundlichen Grüßen\n"
 				+ "Patrick Maier");
 		textElement.setAlignment(Align.R);
-		textElement.write(getPageWidth() - MARGIN, 155, "10 Tage 2% Skonto, 30 Tage netto. ");
+		textElement.write(getPageWidth() - MARGIN, 155, cond);
 
 	}
 
