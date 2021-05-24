@@ -2,11 +2,15 @@ package at.neseri.offers.main.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 
@@ -33,13 +37,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
+	protected final static org.apache.logging.log4j.Logger LOG = LogManager.getLogger(AListController.class);
 	@FXML
 	protected TextField filterTextfield;
 	@FXML
 	protected TableView<T> tableView;
-	protected TT dao;
-	protected ObservableListWrapper<T> masterList = new ObservableListWrapper<>(Collections.emptyList());
-	protected Map<Integer, T> masterMap;
+	private TT dao;
+	protected final ObservableListWrapper<T> masterList = new ObservableListWrapper<>(new ArrayList<>());
+	protected final Map<Integer, T> masterMap = new HashMap<>();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialize() {
@@ -85,6 +90,7 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	}
 
 	protected ContextMenu initContextMenu() {
+		LOG.info("initContextMenu " + getClass());
 		ContextMenu menu = new ContextMenu();
 
 		menu.getItems().add(new MenuItem("Bearbeiten"));
@@ -93,10 +99,10 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 			openDialog(entry);
 		});
 
-		menu.getItems().add(new MenuItem("Löschen"));
+		MenuItem deleteMenuItem = new MenuItem("Löschen");
+		menu.getItems().add(deleteMenuItem);
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
 			T entry = tableView.getSelectionModel().getSelectedItem();
-
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setHeaderText("Eintrag löschen");
 			alert.setContentText(entry.toString());
@@ -109,14 +115,24 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 
 		});
 
+		menu.addEventHandler(javafx.scene.control.Menu.ON_SHOWING, event -> {
+			deleteMenuItem.setDisable(!canDelete());
+		});
+
 		tableView.setContextMenu(menu);
 		return menu;
 	}
 
+	protected boolean canDelete() {
+		return true;
+	}
+
 	protected void updateEntryTable() {
-		masterList = new ObservableListWrapper<>(dao.getEntries(masterList));
+		masterList.clear();
+		masterList.addAll(dao.getEntries(masterList));
 		masterList.sort(getMasterListSortComparator());
-		masterMap = masterList.stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
+		masterMap.clear();
+		masterMap.putAll(masterList.stream().collect(Collectors.toMap(o -> o.getId(), o -> o)));
 		FilteredList<T> filteredData = new FilteredList<>(masterList, p -> true);
 
 		filterTextfield.textProperty().addListener((observable, oldValue, newValue) -> {

@@ -97,6 +97,6 @@ public class OfferController extends AListController<Offer, OfferDao> {
 	}
 
 	public List<String> getPosTitleSuggestions() {
-		return dao.getPosTitleSuggestions();
+		return getDaoInstance().getPosTitleSuggestions();
 	}
 }

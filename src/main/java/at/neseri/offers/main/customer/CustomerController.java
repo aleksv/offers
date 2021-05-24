@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import at.neseri.offers.main.Main;
+import at.neseri.offers.main.MainController;
 import at.neseri.offers.main.utils.AListController;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.SortType;
@@ -43,6 +44,16 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 		nachnameCol.setSortType(SortType.ASCENDING);
 		tableView.getSortOrder().add(nachnameCol);
 		tableView.sort();
+	}
+
+	@Override
+	protected boolean canDelete() {
+		Customer customer = tableView.getSelectionModel().getSelectedItem();
+		if (customer == null) {
+			return false;
+		}
+		return !MainController.getInstance().getOfferController().getMasterList().stream().map(o -> o.getCustomer())
+				.anyMatch(c -> c.equals(customer));
 	}
 
 	@Override
