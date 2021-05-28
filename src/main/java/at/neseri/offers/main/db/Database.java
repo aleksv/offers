@@ -2,10 +2,13 @@ package at.neseri.offers.main.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import at.neseri.offers.main.Main;
+import at.neseri.offers.main.property.PropertyKey;
 
 public class Database implements AutoCloseable {
 
@@ -66,19 +69,38 @@ public class Database implements AutoCloseable {
 					+ ");");
 
 			statement = connection.createStatement();
-			statement.execute("CREATE TABLE IF NOT EXISTS appProperty ("
+			statement.execute("CREATE TABLE IF NOT EXISTS property ("
 					+ "  id integer PRIMARY KEY, "
 					+ "  key text NOT NULL, "
 					+ "  value text NOT NULL "
 					+ ");");
 
 			statement = connection.createStatement();
-			statement.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_appProperty_key ON appProperty(key);");
+			statement.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_property_key ON property(key);");
 
+			insertProperties();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		isSetup = true;
+	}
+
+	private void insertProperties() throws SQLException {
+		try (PreparedStatement ps = connection.prepareStatement("SELECT COUNT(1) AS count FROM property");) {
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			if (rs.getInt("count") == 0) {
+				try (PreparedStatement psInsert = connection
+						.prepareStatement("INSERT INTO property (key, value) VALUES (?, ?)");) {
+					for (PropertyKey property : PropertyKey.values()) {
+						psInsert.setString(1, property.name());
+						psInsert.setString(2, "-");
+						psInsert.addBatch();
+					}
+					psInsert.executeBatch();
+				}
+			}
+		}
 	}
 
 	public Connection getConnection() {

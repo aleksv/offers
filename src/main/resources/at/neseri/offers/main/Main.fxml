@@ -18,7 +18,7 @@
 	<children>
 		<TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 			<tabs>
-				<Tab text="Angebote" >
+				<Tab text="Angebote">
 					<content>
 						<fx:include fx:id="offer" source="offer/List.fxml" />
 					</content>
@@ -32,6 +32,12 @@
 					<content>
 						<fx:include fx:id="customer"
 							source="customer/List.fxml" />
+					</content>
+				</Tab>
+				<Tab text="Stammdaten">
+					<content>
+						<fx:include fx:id="property"
+							source="property/List.fxml" />
 					</content>
 				</Tab>
 			</tabs>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -128,8 +129,9 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 	}
 
 	protected void updateEntryTable() {
+		List<T> masterListTemp = dao.getEntries(masterList);
 		masterList.clear();
-		masterList.addAll(dao.getEntries(masterList));
+		masterList.addAll(masterListTemp);
 		masterList.sort(getMasterListSortComparator());
 		masterMap.clear();
 		masterMap.putAll(masterList.stream().collect(Collectors.toMap(o -> o.getId(), o -> o)));
