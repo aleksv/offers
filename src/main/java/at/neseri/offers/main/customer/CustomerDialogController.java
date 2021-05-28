@@ -62,7 +62,7 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 			return false;
 		}
 		if (Optional.ofNullable(strasseTextfield.getText()).orElse("").isBlank()) {
-			showMandatoryError("Straße", strasseTextfield);
+			showMandatoryError("StraÃŸe", strasseTextfield);
 			return false;
 		}
 

@@ -100,12 +100,12 @@ public abstract class AListController<T extends IIdentity, TT extends ADao<T>> {
 			openDialog(entry);
 		});
 
-		MenuItem deleteMenuItem = new MenuItem("Löschen");
+		MenuItem deleteMenuItem = new MenuItem("LÃ¶schen");
 		menu.getItems().add(deleteMenuItem);
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
 			T entry = tableView.getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setHeaderText("Eintrag löschen");
+			alert.setHeaderText("Eintrag lÃ¶schen");
 			alert.setContentText(entry.toString());
 
 			Optional<ButtonType> result = alert.showAndWait();

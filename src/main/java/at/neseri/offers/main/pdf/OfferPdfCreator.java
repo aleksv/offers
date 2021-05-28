@@ -192,9 +192,9 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 				+ (cond.isEmpty() ? "" : "Zahlungskonditionen:") + "\n"
 				+ "\n"
 				+ "Wir hoffen, Ihnen ein entsprechendes Angebot gemacht zu haben\n"
-				+ "und erwarten mit groﬂem Interesse Ihren weiteren Bescheid.\n"
+				+ "und erwarten mit gro√üem Interesse Ihren weiteren Bescheid.\n"
 				+ "\n"
-				+ "Mit freundlichen Gr¸ﬂen\n"
+				+ "Mit freundlichen Gr√º√üen\n"
 				+ "Patrick Maier");
 		textElement.setAlignment(Align.R);
 		textElement.write(getPageWidth() - MARGIN, 155, cond);

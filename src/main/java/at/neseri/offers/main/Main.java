@@ -34,7 +34,7 @@ public class Main extends Application {
 		setUserAgentStylesheet(STYLESHEET_MODENA);
 		root.getStylesheets().add("/style.css");
 		stage.setScene(scene);
-		stage.setTitle("Angebots-Progr‰mmle");
+		stage.setTitle("Angebots-Progr√§mmle");
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
 		stage.setWidth(1000);
 		stage.setMinWidth(600);
