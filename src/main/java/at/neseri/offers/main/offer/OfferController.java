@@ -9,9 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import at.neseri.offers.main.Main;
+import at.neseri.offers.main.MainController;
 import at.neseri.offers.main.pdf.OfferPdfCreator;
+import at.neseri.offers.main.property.Property;
+import at.neseri.offers.main.property.PropertyKey;
 import at.neseri.offers.main.utils.AListController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ContextMenu;
@@ -84,7 +88,10 @@ public class OfferController extends AListController<Offer, OfferDao> {
 		menu.getItems().get(menu.getItems().size() - 1).setOnAction((ActionEvent event) -> {
 			Offer entry = tableView.getSelectionModel().getSelectedItem();
 
-			try (OfferPdfCreator pdfCreator = new OfferPdfCreator(entry);) {
+			Map<PropertyKey, String> propertyMap = MainController.getInstance().getPropertyController().getMasterList()
+					.stream()
+					.collect(Collectors.toMap(p -> PropertyKey.valueOf(p.getKey()), Property::getValue));
+			try (OfferPdfCreator pdfCreator = new OfferPdfCreator(entry, propertyMap);) {
 				File file = Files.createTempFile("vorschau", ".pdf").toFile();
 				file.deleteOnExit();
 				pdfCreator.save(file.getAbsolutePath());

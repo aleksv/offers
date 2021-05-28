@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -32,6 +33,7 @@ import at.neseri.offers.main.pdf.elements.LineElement;
 import at.neseri.offers.main.pdf.elements.RectangleElement;
 import at.neseri.offers.main.pdf.elements.TextElement;
 import at.neseri.offers.main.pdf.elements.TextElement.Align;
+import at.neseri.offers.main.property.PropertyKey;
 
 public class OfferPdfCreator extends AbstractPdfCreator {
 
@@ -50,10 +52,12 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 	private RectangleElement rectangleElement;
 	private PDImageXObject logo;
 	private Offer offer;
+	private Map<PropertyKey, String> propertyMap;
 
-	public OfferPdfCreator(Offer offer) {
+	public OfferPdfCreator(Offer offer, Map<PropertyKey, String> propertyMap) {
 		super();
 		this.offer = offer;
+		this.propertyMap = propertyMap;
 		rectangleElement = new RectangleElement(this);
 		textElement = new TextElement(this);
 		textElement.setFont(FONT);
@@ -251,7 +255,7 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		textElement.write(MARGIN, 14, "Hypo - Bank Hohenems");
 
 		textElement.setAlignment(Align.C);
-		textElement.write(getPageWidth() / 2, 32, "IBAN: AT925800019144785005");
+		textElement.write(getPageWidth() / 2, 32, "IBAN: " + propertyMap.get(PropertyKey.IBAN));
 		textElement.write(getPageWidth() / 2, 23, "BIC: HYPVAT2B");
 
 		lineElement.setLineWidth(0.1f);

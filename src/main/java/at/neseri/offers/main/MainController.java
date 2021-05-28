@@ -3,6 +3,7 @@ package at.neseri.offers.main;
 import at.neseri.offers.main.customer.CustomerController;
 import at.neseri.offers.main.item.ItemController;
 import at.neseri.offers.main.offer.OfferController;
+import at.neseri.offers.main.property.PropertyController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -22,6 +23,8 @@ public class MainController {
 	private ItemController itemController;
 	@FXML
 	private OfferController offerController;
+	@FXML
+	private PropertyController propertyController;
 
 	public void initialize() {
 		instance = this;
@@ -45,5 +48,9 @@ public class MainController {
 
 	public ItemController getItemController() {
 		return itemController;
+	}
+
+	public PropertyController getPropertyController() {
+		return propertyController;
 	}
 }
