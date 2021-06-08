@@ -32,4 +32,8 @@ public class PropertyController extends AListController<Property, PropertyDao> {
 		return "Stammdaten";
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }
