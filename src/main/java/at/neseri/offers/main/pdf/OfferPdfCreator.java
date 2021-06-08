@@ -92,6 +92,10 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		addNewPageToDocument();
 		Customer customer = offer.getCustomer();
 
+		textElement.setColor(Color.BLACK);
+		textElement.setFontSize(FONT_SIZE_NORMAL);
+
+		textElement.setAlignment(Align.L);
 		float currY = getPageHeight() - 150;
 		textElement.write(MARGIN, currY, customer.getVorname() + " " + customer.getNachname());
 		currY -= FONT_SIZE_NORMAL * 1.4;
@@ -102,7 +106,8 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		currY -= 25;
 		textElement.setAlignment(Align.R);
 		textElement.write(getPageWidth() - MARGIN, currY,
-				"Hohenems am " + offer.getCreated().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+				propertyMap.get(PropertyKey.ORT) + " am "
+						+ offer.getCreated().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 		textElement.setAlignment(Align.L);
 
 		currY -= 25;
@@ -221,45 +226,50 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			}
 
 			SimpleContentProvider simpleContentProvider = new SimpleContentProvider(contentStream, page, getDocument());
-			if (i == 1) {
-				drawHeaderFirst(simpleContentProvider);
-			} else {
-				drawHeaderRest(simpleContentProvider);
-			}
+
+			drawHeader(simpleContentProvider);
+
 			drawFooter(simpleContentProvider, i, totalPages);
 			contentStream.close();
 			i++;
 		}
 	}
 
-	private void drawHeaderRest(SimpleContentProvider simpleContentProvider) throws IOException {
-		drawHeaderFirst(simpleContentProvider);
-	}
-
-	private void drawHeaderFirst(SimpleContentProvider simpleContentProvider) throws IOException {
+	private void drawHeader(SimpleContentProvider simpleContentProvider) throws IOException {
 		drawLogo(simpleContentProvider, new Dimension((int) (getPageWidth() - 2 * MARGIN), 100));
+		TextElement textElement = new TextElement(simpleContentProvider);
+		textElement.setAlignment(Align.R);
+		textElement.setColor(new Color(0, 68, 146));
+		textElement.setFontSize(FONT_SIZE_SMALL);
+		String text = propertyMap.get(PropertyKey.PLZ) + " " + propertyMap.get(PropertyKey.ORT) + ", "
+				+ propertyMap.get(PropertyKey.STRASSE) + "         Mobil " + propertyMap.get(PropertyKey.TEL)
+				+ "         "
+				+ propertyMap.get(PropertyKey.MAIL);
+		textElement.write(getPageWidth() - MARGIN, getPageHeight() - 115, text);
+		textElement.write(getPageWidth() - MARGIN + 0.1f, getPageHeight() - 115 + 0.1f, text);
 	}
 
 	private void drawFooter(DocumentContentProvider contentProvider, int currPage, int totalPages)
 			throws IOException {
 		TextElement textElement = new TextElement(contentProvider);
 		LineElement lineElement = new LineElement(contentProvider);
-		textElement.setFontSize(FONT_SIZE_SMALL);
+		textElement.setFontSize(FONT_SIZE_SMALL - 1);
 		textElement.setAlignment(Align.R);
-		textElement.write(getPageWidth() - MARGIN, 32,
-				String.format("%s / %s", currPage, totalPages));
+		textElement.write(getPageWidth() - MARGIN, 33,
+				String.format("Seite %s / %s", currPage, totalPages));
 
 		textElement.setAlignment(Align.L);
-		textElement.write(MARGIN, 32, "Dienstgebernummer: 301439432");
-		textElement.write(MARGIN, 23, "ATU: 56861079");
-		textElement.write(MARGIN, 14, "Hypo - Bank Hohenems");
+		textElement.write(MARGIN, 42, "Dienstgebernummer: " + propertyMap.get(PropertyKey.DIENSTGEBERNUMMER));
+		textElement.write(MARGIN, 33, "ATU: " + propertyMap.get(PropertyKey.ATU));
+		textElement.write(MARGIN, 24, propertyMap.get(PropertyKey.BANK));
 
 		textElement.setAlignment(Align.C);
-		textElement.write(getPageWidth() / 2, 32, "IBAN: " + propertyMap.get(PropertyKey.IBAN));
-		textElement.write(getPageWidth() / 2, 23, "BIC: HYPVAT2B");
+		textElement.write(getPageWidth() / 2, 24, "IBAN: " + propertyMap.get(PropertyKey.IBAN));
+		textElement.setAlignment(Align.R);
+		textElement.write(getPageWidth() - MARGIN, 24, "BIC: " + propertyMap.get(PropertyKey.BIC));
 
 		lineElement.setLineWidth(0.1f);
-		lineElement.write(MARGIN - 1, 40, getPageWidth() - MARGIN, 40);
+		lineElement.write(MARGIN - 1, 31.5f, getPageWidth() - MARGIN, 31.5f);
 	}
 
 	public void setLogo(byte[] logo) throws IOException {

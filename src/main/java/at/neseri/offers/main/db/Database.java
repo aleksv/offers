@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import at.neseri.offers.main.Main;
 import at.neseri.offers.main.property.PropertyKey;
@@ -86,13 +89,17 @@ public class Database implements AutoCloseable {
 	}
 
 	private void insertProperties() throws SQLException {
-		try (PreparedStatement ps = connection.prepareStatement("SELECT COUNT(1) AS count FROM property");) {
+		try (PreparedStatement ps = connection.prepareStatement(
+				"SELECT key FROM property");) {
 			ResultSet rs = ps.executeQuery();
-			rs.next();
-			if (rs.getInt("count") == 0) {
+			Set<PropertyKey> unsetKeys = new HashSet<>(Arrays.asList(PropertyKey.values()));
+			while (rs.next()) {
+				unsetKeys.remove(PropertyKey.valueOf(rs.getString("key")));
+			}
+			if (!unsetKeys.isEmpty()) {
 				try (PreparedStatement psInsert = connection
 						.prepareStatement("INSERT INTO property (key, value) VALUES (?, ?)");) {
-					for (PropertyKey property : PropertyKey.values()) {
+					for (PropertyKey property : unsetKeys) {
 						psInsert.setString(1, property.name());
 						psInsert.setString(2, "-");
 						psInsert.addBatch();
