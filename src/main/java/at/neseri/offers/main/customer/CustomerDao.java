@@ -18,7 +18,7 @@ public class CustomerDao extends ADao<Customer> {
 		return (rs, c) -> {
 			c.withId(rs.getInt("id")).withVorname(rs.getString("vorname"))
 					.withNachname(rs.getString("nachname")).withStrasse(rs.getString("strasse"))
-					.withPlz(rs.getString("plz")).withOrt(rs.getString("ort"));
+					.withPlz(rs.getString("plz")).withOrt(rs.getString("ort")).withFirma(rs.getString("firma"));
 		};
 	}
 
@@ -30,6 +30,8 @@ public class CustomerDao extends ADao<Customer> {
 		map.put("strasse", c -> c.getStrasse());
 		map.put("plz", c -> c.getPlz());
 		map.put("ort", c -> c.getOrt());
+		map.put("firma", c -> c.getFirma());
+
 		return map;
 	}
 

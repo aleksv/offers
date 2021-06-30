@@ -22,6 +22,7 @@
 	</rowConstraints>
 	<children>
 		<TextField fx:id="idTextfield" disable="true" editable="false" promptText="ID" GridPane.columnIndex="1" />
+		<TextField fx:id="nameTextfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
 			<children>
 				<Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
@@ -31,7 +32,6 @@
             <Insets bottom="5.0" right="5.0" />
          </padding>
 		</HBox>
-      <TextField fx:id="nameTextfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label text="ID">
          <font>
             <Font name="System Bold" size="12.0" />

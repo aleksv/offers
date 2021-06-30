@@ -36,4 +36,9 @@ public class PropertyController extends AListController<Property, PropertyDao> {
 	protected boolean canDelete() {
 		return false;
 	}
+
+	@Override
+	protected int getHeight() {
+		return 100;
+	}
 }

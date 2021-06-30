@@ -75,6 +75,10 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 
 		offerPositions.addAll(entry.getOfferPositions());
 
+		if (entry.getId() == 0) {
+			noteTextarea.setText("Sämtliche Abdeckarbeiten sind im Preis inbegriffen.");
+		}
+
 	}
 
 	@Override
@@ -124,6 +128,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			AtomicReference<ChoiceBox<Item>> addItemChoicebox = new AtomicReference<>();
 			AtomicReference<TextArea> detailsTextarea = new AtomicReference<>();
 			AtomicReference<TextField> costTextfield = new AtomicReference<>();
+			AtomicReference<TextField> singleCostTextfield = new AtomicReference<>();
 			AtomicReference<TextField> posTitleTextfield = new AtomicReference<>();
 			AtomicReference<Button> deleteItemButton = new AtomicReference<>();
 			AtomicReference<Button> moveUpButton = new AtomicReference<>();
@@ -139,6 +144,9 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 					break;
 				case "costTextfield":
 					costTextfield.set((TextField) n);
+					break;
+				case "singleCostTextfield":
+					singleCostTextfield.set((TextField) n);
 					break;
 				case "posTitleTextfield":
 					posTitleTextfield.set((TextField) n);
@@ -158,6 +166,12 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 			detailsTextarea.get().setText(offerPosition.getDetails());
 			addItemChoicebox.get().setItems(MainController.getInstance().getItemController().getMasterList());
 			updateCost(offerPosition, costTextfield);
+			if (offerPosition.getSingleCost() > 0) {
+				singleCostTextfield.get().textProperty()
+						.set(String.valueOf(((double) Math.round((offerPosition.getSingleCost()) * 100)) / 100)
+								.replace(".",
+										","));
+			}
 			posTitleTextfield.get().setText(offerPosition.getPosTitle());
 
 			detailsTextarea.get().textProperty().addListener(s -> {
@@ -172,6 +186,12 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 				String strValue = ((javafx.beans.property.StringProperty) s).get();
 				if (!strValue.isBlank()) {
 					offerPosition.setCost(Double.parseDouble(strValue.replace(",", ".")));
+				}
+			});
+			singleCostTextfield.get().textProperty().addListener(s -> {
+				String strValue = ((javafx.beans.property.StringProperty) s).get();
+				if (!strValue.isBlank()) {
+					offerPosition.setSingleCost(Double.parseDouble(strValue.replace(",", ".")));
 				}
 			});
 
@@ -200,8 +220,8 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 				return null;
 			};
 
-			TextFormatter<String> textFormatter = new TextFormatter<>(filter);
-			costTextfield.get().setTextFormatter(textFormatter);
+			costTextfield.get().setTextFormatter(new TextFormatter<>(filter));
+			singleCostTextfield.get().setTextFormatter(new TextFormatter<>(filter));
 
 			TextFields.bindAutoCompletion(posTitleTextfield.get(), posTitleAutocompleteSuggestions);
 

@@ -42,7 +42,8 @@ public class Database implements AutoCloseable {
 					+ "  vorname text NOT NULL, "
 					+ "  strasse text NOT NULL, "
 					+ "  plz text NOT NULL, "
-					+ "  ort text NOT NULL "
+					+ "  ort text NOT NULL, "
+					+ "  firma text NULL "
 					+ ");");
 
 			statement = connection.createStatement();
@@ -67,6 +68,7 @@ public class Database implements AutoCloseable {
 					+ "  id_offer integer NOT NULL, "
 					+ "  position integer NOT NULL, "
 					+ "  cost real NULL, "
+					+ "  single_cost real NULL, "
 					+ "  details text NULL, "
 					+ "  title text NOT NULL "
 					+ ");");

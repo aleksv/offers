@@ -19,7 +19,9 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 	@Override
 	public boolean hasFilterMatched(Customer customer, String lowerCaseFilter) {
 		return customer.getVorname().toLowerCase().contains(lowerCaseFilter)
-				|| customer.getNachname().toLowerCase().contains(lowerCaseFilter);
+				|| customer.getNachname().toLowerCase().contains(lowerCaseFilter)
+				|| customer.getFirma().toLowerCase().contains(lowerCaseFilter)
+				|| customer.getOrt().toLowerCase().contains(lowerCaseFilter);
 	}
 
 	@Override
@@ -29,6 +31,7 @@ public class CustomerController extends AListController<Customer, CustomerDao> {
 		m.put("Nachname", "nachname");
 		m.put("Vorname", "vorname");
 		m.put("Ort", "ort");
+		m.put("Firma", "firma");
 		return m;
 	}
 

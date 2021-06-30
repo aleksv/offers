@@ -5,6 +5,7 @@ import java.util.Optional;
 public class OfferPosition {
 	private String posTitle;
 	private double cost;
+	private double singleCost;
 	private String details = "";
 
 	public String getPosTitle() {
@@ -29,6 +30,14 @@ public class OfferPosition {
 
 	public void setDetails(String details) {
 		this.details = Optional.ofNullable(details).orElse("");
+	}
+
+	public double getSingleCost() {
+		return singleCost;
+	}
+
+	public void setSingleCost(double singleCost) {
+		this.singleCost = singleCost;
 	}
 
 }

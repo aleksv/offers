@@ -23,6 +23,7 @@ public class Main extends Application {
 
 	private final static Database DATABASE = new Database();
 
+	@SuppressWarnings("unused")
 	private MainController mainController;
 	private static String dbPath = System.getProperty("user.home") + "/" + "at.neseri.chinook.db";
 

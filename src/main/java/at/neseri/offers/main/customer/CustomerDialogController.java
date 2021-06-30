@@ -20,6 +20,8 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 	private TextField plzTextfield;
 	@FXML
 	private TextField ortTextfield;
+	@FXML
+	private TextField firmaTextfield;
 
 	@Override
 	public void onLoad() {
@@ -40,6 +42,9 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 		}
 		if (entry.getStrasse() != null) {
 			strasseTextfield.setText(String.valueOf(entry.getStrasse()));
+		}
+		if (entry.getFirma() != null) {
+			firmaTextfield.setText(String.valueOf(entry.getFirma()));
 		}
 	}
 
@@ -71,6 +76,7 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 		entry.setOrt(ortTextfield.getText());
 		entry.setPlz(plzTextfield.getText());
 		entry.setStrasse(strasseTextfield.getText());
+		entry.setFirma(firmaTextfield.getText());
 		return true;
 	}
 }

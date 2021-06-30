@@ -97,7 +97,14 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 
 		textElement.setAlignment(Align.L);
 		float currY = getPageHeight() - 150;
-		textElement.write(MARGIN, currY, customer.getVorname() + " " + customer.getNachname());
+		boolean hasFirma = !Optional.ofNullable(customer.getFirma()).orElse("").isBlank();
+		if (hasFirma) {
+			currY += FONT_SIZE_NORMAL * 1.4;
+			textElement.write(MARGIN, currY, customer.getFirma());
+			currY -= FONT_SIZE_NORMAL * 1.4;
+		}
+		textElement.write(MARGIN, currY,
+				(hasFirma ? "z. Hd. " : "") + customer.getVorname() + " " + customer.getNachname());
 		currY -= FONT_SIZE_NORMAL * 1.4;
 		textElement.write(MARGIN, currY, customer.getStrasse());
 		currY -= FONT_SIZE_NORMAL * 1.4;
@@ -106,30 +113,32 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		currY -= 25;
 		textElement.setAlignment(Align.R);
 		textElement.write(getPageWidth() - MARGIN, currY,
-				propertyMap.get(PropertyKey.ORT) + " am "
+				propertyMap.get(PropertyKey.ORT) + ", am "
 						+ offer.getCreated().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 		textElement.setAlignment(Align.L);
 
 		currY -= 25;
 		textElement.setFontSize(FONT_SIZE_BIG);
 		textElement.write(MARGIN, currY, "Angebot");
-		textElement.write(MARGIN + 0.1f, currY + 0.1f, "Angebot");
+		textElement.write(MARGIN + 0.3f, currY + 0.3f, "Angebot");
 		currY -= FONT_SIZE_BIG * 1.4;
 
 		textElement.setFontSize(FONT_SIZE_NORMAL);
 		textElement.write(MARGIN, currY, "Betreff: " + offer.getSubject());
-		currY -= FONT_SIZE_NORMAL;
+		currY -= FONT_SIZE_NORMAL * 0.5f;
 
-		lineElement.write(MARGIN, currY, getPageWidth() - MARGIN, currY);
+		lineElement.write(MARGIN, currY - 4f, getPageWidth() - MARGIN, currY - 4f);
 		currY -= FONT_SIZE_NORMAL * 1.6;
 		textElement.write(MARGIN, currY, "Material / Leistungsumfang");
-		textElement.write(MARGIN + 0.15f, currY + 0.15f, "Material / Leistungsumfang");
+		textElement.write(MARGIN + 0.25f, currY + 0.25f, "Material / Leistungsumfang");
 		textElement.setAlignment(Align.R);
+		textElement.write(getPageWidth() - MARGIN * 2.1f, currY, "Einzelpreis");
+		textElement.write(getPageWidth() - MARGIN * 2.1f + 0.25f, currY + 0.25f, "Einzelpreis");
 		textElement.write(getPageWidth() - MARGIN, currY, "Gesamtpreis");
-		textElement.write(getPageWidth() - MARGIN + 0.15f, currY + 0.15f, "Gesamtpreis");
+		textElement.write(getPageWidth() - MARGIN + 0.25f, currY + 0.25f, "Gesamtpreis");
 		textElement.setAlignment(Align.L);
 		currY -= FONT_SIZE_NORMAL;
-		lineElement.write(MARGIN, currY, getPageWidth() - MARGIN, currY);
+		lineElement.write(MARGIN, currY + 4f, getPageWidth() - MARGIN, currY + 4f);
 
 		currY -= FONT_SIZE_NORMAL * 3;
 
@@ -148,10 +157,14 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			}
 
 			textElement.write(MARGIN, currY, "Pos. " + (pos) + ": " + op.getPosTitle());
-			textElement.write(MARGIN + 0.15f, currY + 0.15f, "Pos. " + (pos++) + ": " + op.getPosTitle());
+			textElement.write(MARGIN + 0.25f, currY + 0.25f, "Pos. " + (pos++) + ": " + op.getPosTitle());
 
 			textElement.setAlignment(Align.R);
 
+			if (op.getSingleCost() > 0) {
+				textElement.write(getPageWidth() - MARGIN * 2.1f, currY,
+						numberInstance.format(op.getSingleCost()));
+			}
 			if (op.getCost() > 0) {
 				textElement.write(getPageWidth() - MARGIN, currY,
 						numberInstance.format(op.getCost()));
@@ -165,7 +178,7 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			currY -= FONT_SIZE_NORMAL * 1.4;
 			sum += op.getCost();
 		}
-
+		currY -= FONT_SIZE_NORMAL * 1.4;
 		if (offer.getNote() != null) {
 			float height = textElement.calcMultilineHeight(offer.getNote(), getPageWidth() - 2 * MARGIN);
 			if (currY - MARGIN * 1.5 - ((FONT_SIZE_NORMAL * 1.4) * 2 + height) < 0) {
@@ -187,10 +200,10 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		textElement.write(getPageWidth() - MARGIN, 196, numberInstance.format(sum * 0.2));
 		lineElement.write(getPageWidth() - MARGIN - 150, 194, getPageWidth() - MARGIN, 194);
 		textElement.write(getPageWidth() - MARGIN - 130, 182, "Bruttosumme EUR");
-		textElement.write(getPageWidth() - MARGIN - 130 + 0.1f, 182 + 0.1f, "Bruttosumme EUR");
+		textElement.write(getPageWidth() - MARGIN - 130 + 0.25f, 182 + 0.25f, "Bruttosumme EUR");
 		textElement.write(getPageWidth() - MARGIN, 182,
 				numberInstance.format(sum * 1.2));
-		textElement.write(getPageWidth() - MARGIN - 0.2f, 182.2f,
+		textElement.write(getPageWidth() - MARGIN - 0.25f, 182.2f,
 				numberInstance.format(sum * 1.2));
 		lineElement.write(getPageWidth() - MARGIN - 150, 180, getPageWidth() - MARGIN, 180);
 		lineElement.write(getPageWidth() - MARGIN - 150, 178, getPageWidth() - MARGIN, 178);

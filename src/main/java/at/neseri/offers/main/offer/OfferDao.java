@@ -47,21 +47,22 @@ public class OfferDao extends ADao<Offer> {
 		deleteOfferPositions(entry);
 		AtomicInteger pos = new AtomicInteger(1);
 		entry.getOfferPositions().forEach(op -> {
-			executeUpdate("INSERT INTO offerPosition (id_offer, position, cost, details, title) "
-					+ "VALUES(?,?,?,?,?)",
+			executeUpdate("INSERT INTO offerPosition (id_offer, position, cost, details, title, single_cost) "
+					+ "VALUES(?,?,?,?,?,?)",
 					Optional.of(ps -> {
 						ps.setInt(1, entry.getId());
 						ps.setInt(2, pos.getAndIncrement());
 						ps.setDouble(3, op.getCost());
 						ps.setString(4, op.getDetails());
 						ps.setString(5, op.getPosTitle());
+						ps.setDouble(6, op.getSingleCost());
 
 						LOG.info("Param: " + entry.getId());
 						LOG.info("Param: " + (pos.get() - 1));
 						LOG.info("Param: " + op.getCost());
 						LOG.info("Param: " + op.getDetails());
 						LOG.info("Param: " + op.getPosTitle());
-
+						LOG.info("Param: " + op.getSingleCost());
 					}));
 		});
 	}
@@ -96,6 +97,7 @@ public class OfferDao extends ADao<Offer> {
 					p.setCost(rs.getDouble("cost"));
 					p.setDetails(rs.getString("details"));
 					p.setPosTitle(rs.getString("title"));
+					p.setSingleCost(rs.getDouble("single_cost"));
 					return p;
 				}, Optional.of(ps -> ps.setInt(1, offerId)));
 		LOG.info("Param: " + offerId);

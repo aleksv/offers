@@ -1,5 +1,7 @@
 package at.neseri.offers.main.customer;
 
+import java.util.Optional;
+
 import at.neseri.offers.main.db.IIdentity;
 
 public class Customer implements IIdentity {
@@ -9,6 +11,7 @@ public class Customer implements IIdentity {
 	private String strasse;
 	private String plz;
 	private String ort;
+	private String firma;
 
 	@Override
 	public int getId() {
@@ -53,7 +56,8 @@ public class Customer implements IIdentity {
 
 	@Override
 	public String toString() {
-		return nachname + " " + vorname;
+		return (Optional.ofNullable(firma).orElse("").isBlank() ? nachname + " " + vorname
+				: firma + " (" + nachname + " " + vorname + ")");
 	}
 
 	public String getStrasse() {
@@ -92,6 +96,19 @@ public class Customer implements IIdentity {
 
 	public Customer withOrt(String ort) {
 		this.ort = ort;
+		return this;
+	}
+
+	public String getFirma() {
+		return firma;
+	}
+
+	public void setFirma(String firma) {
+		this.firma = firma;
+	}
+
+	public Customer withFirma(String firma) {
+		this.firma = firma;
 		return this;
 	}
 
