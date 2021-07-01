@@ -56,8 +56,12 @@ public class Customer implements IIdentity {
 
 	@Override
 	public String toString() {
+		String name = "";
+		if (!Optional.ofNullable(nachname).isEmpty() && !Optional.ofNullable(nachname).isEmpty()) {
+			name = nachname + " " + vorname;
+		}
 		return (Optional.ofNullable(firma).orElse("").isBlank() ? nachname + " " + vorname
-				: firma + " (" + nachname + " " + vorname + ")");
+				: firma + " (" + name + ")");
 	}
 
 	public String getStrasse() {

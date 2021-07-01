@@ -76,7 +76,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		offerPositions.addAll(entry.getOfferPositions());
 
 		if (entry.getId() == 0) {
-			noteTextarea.setText("Sämtliche Abdeckarbeiten sind im Preis inbegriffen.");
+			conditionTextfield.setText("14 Tage netto, ohne Abzug");
 		}
 
 	}
@@ -206,7 +206,7 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 							detailsTextarea.get().setText(String.valueOf(value));
 						} else {
 							detailsTextarea.get()
-									.appendText("\n" + String.valueOf(value));
+									.appendText(" " + String.valueOf(value));
 						}
 						addItemChoicebox.get().getSelectionModel().clearSelection();
 					});

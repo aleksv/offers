@@ -50,14 +50,18 @@ public class CustomerDialogController extends AStageController<Customer, Custome
 
 	@Override
 	protected boolean save() {
-		if (Optional.ofNullable(vornameTextfield.getText()).orElse("").isBlank()) {
-			showMandatoryError("Vorname", vornameTextfield);
-			return false;
+		
+		if (Optional.ofNullable(firmaTextfield.getText()).orElse("").isBlank()) {
+			if (Optional.ofNullable(vornameTextfield.getText()).orElse("").isBlank()) {
+				showMandatoryError("Vorname", vornameTextfield);
+				return false;
+			}
+			if (Optional.ofNullable(nachnameTextfield.getText()).orElse("").isBlank()) {
+				showMandatoryError("Nachname", nachnameTextfield);
+				return false;
+			}
 		}
-		if (Optional.ofNullable(nachnameTextfield.getText()).orElse("").isBlank()) {
-			showMandatoryError("Nachname", nachnameTextfield);
-			return false;
-		}
+
 		if (Optional.ofNullable(ortTextfield.getText()).orElse("").isBlank()) {
 			showMandatoryError("Ort", ortTextfield);
 			return false;

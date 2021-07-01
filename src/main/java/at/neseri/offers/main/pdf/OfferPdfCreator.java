@@ -103,9 +103,11 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			textElement.write(MARGIN, currY, customer.getFirma());
 			currY -= FONT_SIZE_NORMAL * 1.4;
 		}
-		textElement.write(MARGIN, currY,
-				(hasFirma ? "z. Hd. " : "") + customer.getVorname() + " " + customer.getNachname());
-		currY -= FONT_SIZE_NORMAL * 1.4;
+		if (!Optional.ofNullable(customer.getVorname()).orElse("").isBlank() || !Optional.ofNullable(customer.getNachname()).orElse("").isBlank()) {
+			textElement.write(MARGIN, currY,
+					(hasFirma ? "z. Hd. " : "") + customer.getVorname() + " " + customer.getNachname());
+			currY -= FONT_SIZE_NORMAL * 1.4;
+		}
 		textElement.write(MARGIN, currY, customer.getStrasse());
 		currY -= FONT_SIZE_NORMAL * 1.4;
 		textElement.write(MARGIN, currY, customer.getPlz() + " " + customer.getOrt());
@@ -159,22 +161,23 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			textElement.write(MARGIN, currY, "Pos. " + (pos) + ": " + op.getPosTitle());
 			textElement.write(MARGIN + 0.25f, currY + 0.25f, "Pos. " + (pos++) + ": " + op.getPosTitle());
 
+			currY -= FONT_SIZE_NORMAL * 1.4;
+			textElement.writeMultiline(MARGIN + 10, currY, getPageWidth() - 5 * MARGIN, op.getDetails());
+			currY -= detailsHeight;
+			
 			textElement.setAlignment(Align.R);
 
 			if (op.getSingleCost() > 0) {
-				textElement.write(getPageWidth() - MARGIN * 2.1f, currY,
+				textElement.write(getPageWidth() - MARGIN * 2.1f, currY+ FONT_SIZE_NORMAL * 1.4f,
 						numberInstance.format(op.getSingleCost()));
 			}
 			if (op.getCost() > 0) {
-				textElement.write(getPageWidth() - MARGIN, currY,
+				textElement.write(getPageWidth() - MARGIN,  currY+ FONT_SIZE_NORMAL * 1.4f,
 						numberInstance.format(op.getCost()));
 			}
 
 			textElement.setAlignment(Align.L);
-
-			currY -= FONT_SIZE_NORMAL * 1.4;
-			textElement.writeMultiline(MARGIN + 10, currY, getPageWidth() - 5 * MARGIN, op.getDetails());
-			currY -= detailsHeight;
+			
 			currY -= FONT_SIZE_NORMAL * 1.4;
 			sum += op.getCost();
 		}
@@ -189,18 +192,19 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			currY -= height;
 		}
 
-		if (currY - MARGIN - 220 < 0) {
+		if (currY - MARGIN - 230 < 0) {
 			addNewPageToDocument();
 		}
+		textElement.write(MARGIN, 230, "Sämtliche Abdeckungsleistungen sind im Preis inbegriffen.");
 		lineElement.write(MARGIN, 220, getPageWidth() - MARGIN, 220);
 		textElement.setAlignment(Align.R);
-		textElement.write(getPageWidth() - MARGIN - 130, 210, "Nettosumme EUR");
+		textElement.write(getPageWidth() - MARGIN - 130, 210, "EUR");
 		textElement.write(getPageWidth() - MARGIN, 210, numberInstance.format(sum));
-		textElement.write(getPageWidth() - MARGIN - 130, 196, "20 % MwSt. EUR");
+		textElement.write(getPageWidth() - MARGIN - 130, 196, "EUR");
 		textElement.write(getPageWidth() - MARGIN, 196, numberInstance.format(sum * 0.2));
 		lineElement.write(getPageWidth() - MARGIN - 150, 194, getPageWidth() - MARGIN, 194);
-		textElement.write(getPageWidth() - MARGIN - 130, 182, "Bruttosumme EUR");
-		textElement.write(getPageWidth() - MARGIN - 130 + 0.25f, 182 + 0.25f, "Bruttosumme EUR");
+		textElement.write(getPageWidth() - MARGIN - 130, 182, "EUR");
+		textElement.write(getPageWidth() - MARGIN - 130 + 0.25f, 182 + 0.25f, "EUR");
 		textElement.write(getPageWidth() - MARGIN, 182,
 				numberInstance.format(sum * 1.2));
 		textElement.write(getPageWidth() - MARGIN - 0.25f, 182.2f,
@@ -209,6 +213,11 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		lineElement.write(getPageWidth() - MARGIN - 150, 178, getPageWidth() - MARGIN, 178);
 
 		textElement.setAlignment(Align.L);
+		textElement.write(getPageWidth() - MARGIN - 250, 210, "Nettosumme");
+		textElement.write(getPageWidth() - MARGIN - 250, 196, "20 % MwSt.");
+		textElement.write(getPageWidth() - MARGIN - 250, 182, "Bruttosumme");
+		textElement.write(getPageWidth() - MARGIN - 250 + 0.25f, 182 + 0.25f, "Bruttosumme");
+		
 		String cond = Optional.ofNullable(offer.getCondition()).orElse("").trim();
 		textElement.writeMultiline(MARGIN, 155, 600, ""
 				+ (cond.isEmpty() ? "" : "Zahlungskonditionen:") + "\n"
