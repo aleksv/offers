@@ -1,0 +1,23 @@
+PRAGMA foreign_keys=off;
+
+ALTER TABLE offerPosition RENAME TO offerPosition_old;
+
+CREATE TABLE offerPosition 
+( 
+  id integer PRIMARY KEY, 
+  id_offer integer NOT NULL, 
+  position integer NOT NULL, 
+  cost real NULL, 
+  single_cost real NULL, 
+  details text NULL, 
+  title text NULL 
+);
+
+INSERT INTO offerPosition (id, id_offer, position, cost, single_cost, details, title)
+  SELECT id, id_offer, position, cost, single_cost, details, title
+  FROM offerPosition_old;
+
+
+PRAGMA foreign_keys=on;
+
+DROP TABLE offerPosition_old;

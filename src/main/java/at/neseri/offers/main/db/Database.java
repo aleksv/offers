@@ -1,5 +1,9 @@
 package at.neseri.offers.main.db;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,10 +14,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+
 import at.neseri.offers.main.Main;
 import at.neseri.offers.main.property.PropertyKey;
 
 public class Database implements AutoCloseable {
+
+	protected final static org.apache.logging.log4j.Logger LOG = LogManager.getLogger(Database.class);
 
 	private boolean isSetup = false;
 	private Connection connection;
@@ -83,11 +91,55 @@ public class Database implements AutoCloseable {
 			statement = connection.createStatement();
 			statement.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_property_key ON property(key);");
 
+			statement = connection.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS updateInfo ("
+					+ "  value text NOT NULL "
+					+ ");");
+
 			insertProperties();
+			execUpdates();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		isSetup = true;
+	}
+
+	private void execUpdates() throws SQLException {
+		execUpdateScript("1.0.1.update");
+	}
+
+	private void execUpdateScript(String update101) throws SQLException {
+		if (hasUpdate(update101)) {
+			return;
+		}
+		try {
+			String contents = new String(
+					Files.readAllBytes(Paths.get(getClass().getResource(update101).toURI())));
+			connection.createStatement().executeUpdate(contents);
+			setUpdated(update101);
+		} catch (IOException | URISyntaxException e) {
+			LOG.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	private boolean hasUpdate(String key) throws SQLException {
+		PreparedStatement preparedStatement = connection
+				.prepareStatement("SELECT value FROM updateInfo WHERE value = ?");
+		preparedStatement.setString(1, key);
+		ResultSet rs = preparedStatement.executeQuery();
+		boolean has = false;
+		while (rs.next()) {
+			has = true;
+		}
+		rs.close();
+		return has;
+	}
+
+	private void setUpdated(String key) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO updateInfo (value) VALUES(?)");
+		preparedStatement.setString(1, key);
+		preparedStatement.execute();
 	}
 
 	private void insertProperties() throws SQLException {

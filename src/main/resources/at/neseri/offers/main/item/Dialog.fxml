@@ -7,40 +7,53 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane minHeight="150.0" minWidth="200.0" prefHeight="150.0" prefWidth="250.0" styleClass="grid-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.item.ItemDialogController">
+<GridPane minHeight="150.0" minWidth="200.0" prefHeight="150.0"
+	prefWidth="250.0" styleClass="grid-pane"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="at.neseri.offers.main.item.ItemDialogController">
 	<columnConstraints>
-		<ColumnConstraints fillWidth="false" prefWidth="100.0" />
-      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+		<ColumnConstraints fillWidth="false"
+			prefWidth="100.0" />
+		<ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints />
-      <RowConstraints />
 		<RowConstraints />
 		<RowConstraints />
-      <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="ALWAYS" />
-		<RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="NEVER" />
+		<RowConstraints />
+		<RowConstraints minHeight="10.0" valignment="BOTTOM"
+			vgrow="ALWAYS" />
+		<RowConstraints fillHeight="false" maxHeight="30.0"
+			minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="NEVER" />
 	</rowConstraints>
 	<children>
-		<TextField fx:id="idTextfield" disable="true" editable="false" promptText="ID" GridPane.columnIndex="1" />
-		<TextField fx:id="nameTextfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+		<TextField fx:id="idTextfield" disable="true"
+			editable="false" promptText="ID" GridPane.columnIndex="1" />
+		<TextField fx:id="nameTextfield" GridPane.columnIndex="1"
+			GridPane.rowIndex="1" />
+		<HBox alignment="CENTER_RIGHT" fillHeight="false"
+			GridPane.columnSpan="2" GridPane.halignment="RIGHT"
+			GridPane.hgrow="ALWAYS" GridPane.rowIndex="5"
+			GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
 			<children>
-				<Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
-				<Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+				<Button fx:id="saveButton" defaultButton="true"
+					mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+				<Button fx:id="cancelButton" cancelButton="true"
+					mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
-         <padding>
-            <Insets bottom="5.0" right="5.0" />
-         </padding>
+			<padding>
+				<Insets bottom="5.0" right="5.0" />
+			</padding>
 		</HBox>
-      <Label text="ID">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="Name" GridPane.rowIndex="1">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
+		<Label text="ID">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="Name" GridPane.rowIndex="1">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
 	</children>
 </GridPane>

@@ -103,7 +103,8 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 			textElement.write(MARGIN, currY, customer.getFirma());
 			currY -= FONT_SIZE_NORMAL * 1.4;
 		}
-		if (!Optional.ofNullable(customer.getVorname()).orElse("").isBlank() || !Optional.ofNullable(customer.getNachname()).orElse("").isBlank()) {
+		if (!Optional.ofNullable(customer.getVorname()).orElse("").isBlank()
+				|| !Optional.ofNullable(customer.getNachname()).orElse("").isBlank()) {
 			textElement.write(MARGIN, currY,
 					(hasFirma ? "z. Hd. " : "") + customer.getVorname() + " " + customer.getNachname());
 			currY -= FONT_SIZE_NORMAL * 1.4;
@@ -158,26 +159,28 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 				currY = getPageHeight() - 150;
 			}
 
-			textElement.write(MARGIN, currY, "Pos. " + (pos) + ": " + op.getPosTitle());
-			textElement.write(MARGIN + 0.25f, currY + 0.25f, "Pos. " + (pos++) + ": " + op.getPosTitle());
+			if (!Optional.ofNullable(op.getPosTitle()).orElse("").isBlank()) {
+				textElement.write(MARGIN, currY, "Pos. " + (pos) + ": " + op.getPosTitle());
+				textElement.write(MARGIN + 0.25f, currY + 0.25f, "Pos. " + (pos++) + ": " + op.getPosTitle());
+				currY -= FONT_SIZE_NORMAL * 1.4;
+			}
 
-			currY -= FONT_SIZE_NORMAL * 1.4;
 			textElement.writeMultiline(MARGIN + 10, currY, getPageWidth() - 5 * MARGIN, op.getDetails());
 			currY -= detailsHeight;
-			
+
 			textElement.setAlignment(Align.R);
 
 			if (op.getSingleCost() > 0) {
-				textElement.write(getPageWidth() - MARGIN * 2.1f, currY+ FONT_SIZE_NORMAL * 1.4f,
+				textElement.write(getPageWidth() - MARGIN * 2.1f, currY + FONT_SIZE_NORMAL * 1.4f,
 						numberInstance.format(op.getSingleCost()));
 			}
 			if (op.getCost() > 0) {
-				textElement.write(getPageWidth() - MARGIN,  currY+ FONT_SIZE_NORMAL * 1.4f,
+				textElement.write(getPageWidth() - MARGIN, currY + FONT_SIZE_NORMAL * 1.4f,
 						numberInstance.format(op.getCost()));
 			}
 
 			textElement.setAlignment(Align.L);
-			
+
 			currY -= FONT_SIZE_NORMAL * 1.4;
 			sum += op.getCost();
 		}
@@ -217,7 +220,7 @@ public class OfferPdfCreator extends AbstractPdfCreator {
 		textElement.write(getPageWidth() - MARGIN - 250, 196, "20 % MwSt.");
 		textElement.write(getPageWidth() - MARGIN - 250, 182, "Bruttosumme");
 		textElement.write(getPageWidth() - MARGIN - 250 + 0.25f, 182 + 0.25f, "Bruttosumme");
-		
+
 		String cond = Optional.ofNullable(offer.getCondition()).orElse("").trim();
 		textElement.writeMultiline(MARGIN, 155, 600, ""
 				+ (cond.isEmpty() ? "" : "Zahlungskonditionen:") + "\n"

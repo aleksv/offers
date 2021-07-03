@@ -7,74 +7,92 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane minHeight="200.0" minWidth="200.0" prefHeight="300.0" prefWidth="300.0" styleClass="grid-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.neseri.offers.main.customer.CustomerDialogController">
+<GridPane minHeight="200.0" minWidth="200.0" prefHeight="300.0"
+	prefWidth="300.0" styleClass="grid-pane"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="at.neseri.offers.main.customer.CustomerDialogController">
 	<columnConstraints>
-      <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-		<ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+		<ColumnConstraints fillWidth="false" hgrow="NEVER"
+			minWidth="10.0" prefWidth="100.0" />
+		<ColumnConstraints hgrow="ALWAYS"
+			maxWidth="1.7976931348623157E308" />
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints />
-      <RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints minHeight="30.0" prefHeight="30.0" />
+		<RowConstraints minHeight="30.0" prefHeight="30.0" />
 		<RowConstraints />
 		<RowConstraints />
 		<RowConstraints />
-      <RowConstraints fillHeight="false" minHeight="30.0" prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
-		<RowConstraints fillHeight="false" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" valignment="CENTER" />
+		<RowConstraints fillHeight="false" minHeight="30.0"
+			prefHeight="30.0" valignment="BOTTOM" vgrow="ALWAYS" />
+		<RowConstraints fillHeight="false" maxHeight="35.0"
+			minHeight="35.0" prefHeight="35.0" valignment="CENTER" />
 	</rowConstraints>
 	<children>
-		<TextField fx:id="customerIdTextfield" disable="true" editable="false" promptText="ID" GridPane.columnIndex="1" />
-		<TextField fx:id="firmaTextfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-		<TextField fx:id="nachnameTextfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-		<TextField fx:id="vornameTextfield" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+		<TextField fx:id="customerIdTextfield" disable="true"
+			editable="false" promptText="ID" GridPane.columnIndex="1" />
+		<TextField fx:id="firmaTextfield" GridPane.columnIndex="1"
+			GridPane.rowIndex="1" />
+		<TextField fx:id="nachnameTextfield"
+			GridPane.columnIndex="1" GridPane.rowIndex="2" />
+		<TextField fx:id="vornameTextfield" GridPane.columnIndex="1"
+			GridPane.rowIndex="3" />
 
-		<TextField fx:id="strasseTextfield" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-		<TextField fx:id="plzTextfield" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-		<TextField fx:id="ortTextfield" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-		<HBox alignment="CENTER_RIGHT" fillHeight="false" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+		<TextField fx:id="strasseTextfield" GridPane.columnIndex="1"
+			GridPane.rowIndex="4" />
+		<TextField fx:id="plzTextfield" GridPane.columnIndex="1"
+			GridPane.rowIndex="5" />
+		<TextField fx:id="ortTextfield" GridPane.columnIndex="1"
+			GridPane.rowIndex="6" />
+		<HBox alignment="CENTER_RIGHT" fillHeight="false"
+			GridPane.columnSpan="2" GridPane.halignment="RIGHT"
+			GridPane.rowIndex="8">
 			<children>
-				<Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
-				<Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
+				<Button fx:id="saveButton" defaultButton="true"
+					mnemonicParsing="false" onAction="#onSaveButton" text="Speichern" />
+				<Button fx:id="cancelButton" cancelButton="true"
+					mnemonicParsing="false" onAction="#onCancelButton" text="Abbrechen" />
 			</children>
-         <GridPane.margin>
-            <Insets bottom="5.0" right="5.0" />
-         </GridPane.margin>
+			<GridPane.margin>
+				<Insets bottom="5.0" right="5.0" />
+			</GridPane.margin>
 		</HBox>
-      <Label text="Nachname" GridPane.rowIndex="2">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="ID">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="Vorname" GridPane.rowIndex="3">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="Straße" GridPane.rowIndex="4">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="PLZ" GridPane.rowIndex="5">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="Ort" GridPane.rowIndex="6">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label text="Firma" GridPane.rowIndex="1">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
+		<Label text="Nachname" GridPane.rowIndex="2">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="ID">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="Vorname" GridPane.rowIndex="3">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="Straße" GridPane.rowIndex="4">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="PLZ" GridPane.rowIndex="5">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="Ort" GridPane.rowIndex="6">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
+		<Label text="Firma" GridPane.rowIndex="1">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Label>
 	</children>
 </GridPane>

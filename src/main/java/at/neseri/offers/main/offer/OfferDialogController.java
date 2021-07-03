@@ -89,11 +89,6 @@ public class OfferDialogController extends AStageController<Offer, OfferDao> {
 		} else if (customerChoiceBox.getSelectionModel().getSelectedItem() == null) {
 			showMandatoryError("Kunde", customerChoiceBox);
 			return false;
-		} else if (posTitleTextfields.stream().filter(o -> o.getText() == null || o.getText().isBlank()).findFirst()
-				.isPresent()) {
-			showMandatoryError("Pos.-Titel", posTitleTextfields.stream()
-					.filter(o -> o.getText() == null || o.getText().isBlank()).findFirst().get());
-			return false;
 		} else if (posTitleTextfields.isEmpty()) {
 			showMandatoryError("Position", null);
 			return false;
